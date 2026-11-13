@@ -1,0 +1,18 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+.terraform.lock.hcl.bak
+
+# Export output and alias maps
+octopus-process-export-*/
+*.zip
+anonymization-map.csv
+
+# Secrets and local settings
+.env
+*.key
+.claude/settings.local.json
