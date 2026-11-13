@@ -62,6 +62,7 @@ $def = Get-Content -LiteralPath $Definition -Raw | ConvertFrom-Json
 $ocl = New-Object System.Text.StringBuilder
 $expectedRows = New-Object System.Collections.Generic.List[object]
 
+$workerPoolSlug = Get-Prop $def "workerPool" "hosted-ubuntu"
 $stepNumber = 0
 $wave = 0
 
@@ -149,7 +150,7 @@ foreach ($group in $def.groups) {
             [void]$ocl.AppendLine("        }")
 
             if ($tags.Count -gt 0) { [void]$ocl.AppendLine("        tenant_tags = $(Format-OclList $tags)") }
-            if ($runsOn -ne "targets") { [void]$ocl.AppendLine('        worker_pool = "hosted-ubuntu"') }
+            if ($runsOn -ne "targets") { [void]$ocl.AppendLine("        worker_pool = $(ConvertTo-OclString $workerPoolSlug)") }
 
             if ($package) {
                 [void]$ocl.AppendLine("")
@@ -275,6 +276,15 @@ $largestSteps = ($waveGroups | ForEach-Object { @($_.Group | Select-Object -Expa
 
 $tagUse = @{}
 foreach ($r in $rows) { foreach ($t in $r.tenantTags) { if (-not $tagUse.ContainsKey($t)) { $tagUse[$t] = 0 }; $tagUse[$t]++ } }
+
+function ConvertTo-SortedMap {
+    param($Map)
+    $sorted = [ordered]@{}
+    foreach ($key in ($Map.Keys | Sort-Object)) { $sorted[$key] = $Map[$key] }
+    return $sorted
+}
+$tagUse = ConvertTo-SortedMap $tagUse
+$scopeTypeCounts = ConvertTo-SortedMap $scopeTypeCounts
 
 $expected = [ordered]@{
     definition      = (Split-Path -Leaf $Definition)

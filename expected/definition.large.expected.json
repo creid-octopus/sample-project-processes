@@ -17,26 +17,26 @@
     "promptedCount": 4,
     "referencingStepOutput": 3,
     "countByScopeType": {
-      "Environment": 32,
-      "Channel": 6
+      "Channel": 6,
+      "Environment": 32
     }
   },
   "actionsUsingTag": {
+    "Hardening/Enhanced": 6,
+    "Host Type/Server And Workstation": 12,
+    "Host Type/Server Only": 6,
+    "Integration/Integration 1": 8,
+    "Integration/Integration 2": 7,
+    "Integration/Integration 3": 5,
     "Module Pack/Module A": 17,
     "Module Pack/Module B": 12,
-    "Integration/Integration 2": 7,
-    "Module Pack/Module F": 8,
-    "Host Type/Server And Workstation": 12,
-    "Rollout Control/Fast Track": 3,
     "Module Pack/Module C": 14,
-    "Integration/Integration 3": 5,
+    "Module Pack/Module D": 13,
     "Module Pack/Module E": 18,
-    "Host Type/Server Only": 6,
-    "Hardening/Enhanced": 6,
-    "Integration/Integration 1": 8,
+    "Module Pack/Module F": 8,
     "Pre-release/Beta Program": 5,
-    "Rollout Control/Hold": 3,
-    "Module Pack/Module D": 13
+    "Rollout Control/Fast Track": 3,
+    "Rollout Control/Hold": 3
   },
   "steps": [
     {

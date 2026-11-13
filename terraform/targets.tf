@@ -5,21 +5,34 @@
 # It is registered for every environment and every tenant, and carries every role
 # the process uses. Later we add more targets to test splits (servers and
 # workstations, per environment) and unavailable machines.
-data "octopusdeploy_worker_pools" "hosted_ubuntu" {
-  partial_name = "Hosted Ubuntu"
+#
+# Workers: "Local Container" is a static pool for a polling Tentacle worker that runs
+# in a container on the owner's machine. Terraform creates the pool. The worker
+# registers itself into it. Until a worker is healthy in the pool, keep
+# var.target_worker_pool_name on "Hosted Ubuntu".
+resource "octopusdeploy_static_worker_pool" "local_container" {
+  name        = "Local Container"
+  description = "Polling worker running in a local container."
+  is_default  = false
+}
+
+data "octopusdeploy_worker_pools" "target_pool" {
+  partial_name = var.target_worker_pool_name
+
+  depends_on = [octopusdeploy_static_worker_pool.local_container]
 }
 
 locals {
-  hosted_ubuntu_pool_id = one([for p in data.octopusdeploy_worker_pools.hosted_ubuntu.worker_pools : p.id if p.name == "Hosted Ubuntu"])
+  target_worker_pool_id = one([for p in data.octopusdeploy_worker_pools.target_pool.worker_pools : p.id if p.name == var.target_worker_pool_name])
 }
 
 resource "octopusdeploy_cloud_region_deployment_target" "all" {
   name                              = "mock-target-all"
-  environments                      = local.all_environment_ids
+  environments                      = sort(local.all_environment_ids)
   roles                             = ["app-server", "db-server", "workstation"]
-  default_worker_pool_id            = local.hosted_ubuntu_pool_id
+  default_worker_pool_id            = local.target_worker_pool_id
   tenanted_deployment_participation = "Tenanted"
-  tenants                           = [for t in octopusdeploy_tenant.tenants : t.id]
+  tenants                           = sort([for t in octopusdeploy_tenant.tenants : t.id])
 
   # Tenant connections must exist before the target can name the tenants.
   depends_on = [octopusdeploy_tenant_project.connections]

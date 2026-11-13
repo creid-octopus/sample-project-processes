@@ -26,3 +26,14 @@ variable "project_name" {
   description = "Name of the existing Config as Code project. Created in the UI. Terraform only reads it."
   default     = "Large Process - Multi Tenant"
 }
+
+variable "target_worker_pool_name" {
+  type        = string
+  description = "Worker pool the mock target uses to run scripts. Switch to \"Local Container\" once a worker is healthy in it."
+  default     = "Hosted Ubuntu"
+
+  validation {
+    condition     = contains(["Hosted Ubuntu", "Local Container"], var.target_worker_pool_name)
+    error_message = "Use \"Hosted Ubuntu\" or \"Local Container\"."
+  }
+}
