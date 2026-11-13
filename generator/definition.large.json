@@ -1,5 +1,5 @@
 {
-  "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages, output chains, multi-action steps, flags, and project variables.",
+  "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages, output chains, multi-action steps, flags, and project variables, and a test hook (Project.FailNow) that makes one step fail on demand.",
   "workerPool": "local-container",
   "groups": [
     {
@@ -16,7 +16,8 @@
       "count": 1,
       "layout": "sequential",
       "runsOn": "worker",
-      "setsOutput": "ConfigPath"
+      "setsOutput": "ConfigPath",
+      "failsWhenVariable": "Project.FailNow"
     },
     {
       "key": "validate",
@@ -646,6 +647,13 @@
       "prefix": "Project.Hold.Enabled",
       "count": 1,
       "value": "false"
+    },
+    {
+      "prefix": "Project.FailNow",
+      "count": 1,
+      "value": "false",
+      "exactValue": true,
+      "prompted": true
     }
   ]
 }

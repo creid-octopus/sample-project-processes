@@ -26,6 +26,7 @@ step "prepare-config" {
             Octopus.Action.Script.ScriptBody = <<-EOT
                 echo SCRIPT-MARKER-prepare-config
                 set_octopusvariable "ConfigPath" "value-prepare-config"
+                if [ "#{Project.FailNow}" = "true" ]; then echo "simulated failure"; exit 1; fi
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"

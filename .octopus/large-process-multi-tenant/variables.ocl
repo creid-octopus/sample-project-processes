@@ -281,3 +281,12 @@ variable "Project.Feature.Flag" {
 variable "Project.Hold.Enabled" {
     value "false-1" {}
 }
+
+variable "Project.FailNow" {
+    value "false" {
+        prompt {
+            description = ""
+            label = "Project.FailNow"
+        }
+    }
+}

@@ -87,6 +87,7 @@ foreach ($group in $def.groups) {
     $package = Get-Prop $group "package" $null
     $packageRequirement = Get-Prop $group "packageRequirement" $null
     $targetRole = Get-Prop $group "targetRole" $null
+    $failsWhenVariable = Get-Prop $group "failsWhenVariable" $null
 
     for ($i = 1; $i -le $count; $i++) {
         $stepNumber++
@@ -139,6 +140,10 @@ foreach ($group in $def.groups) {
             $marker = "SCRIPT-MARKER-$actionSlug"
             $body.Add("echo $marker")
             if ($setsOutput) { $body.Add("set_octopusvariable `"$setsOutput`" `"value-$actionSlug`"") }
+            if ($failsWhenVariable) {
+                # Test hook: the step fails on purpose when the variable is "true".
+                $body.Add("if [ `"#{$failsWhenVariable}`" = `"true`" ]; then echo `"simulated failure`"; exit 1; fi")
+            }
             if ($readsOutput -and $readsOutputFrom) {
                 $body.Add("echo `"#{Octopus.Action[$(Get-TitleFromSlug $readsOutputFrom)].Output.$readsOutput}`"")
             }
@@ -210,6 +215,7 @@ foreach ($vg in @(Get-Prop $def "variables" @())) {
     $vReadsFrom = Get-Prop $vg "readsOutputFrom" $null
     $vReads = Get-Prop $vg "readsOutput" $null
     $fixedValue = Get-Prop $vg "value" "dummy"
+    $exactValue = [bool](Get-Prop $vg "exactValue" $false)
 
     for ($n = 1; $n -le $vcount; $n++) {
         $vname = if ($vcount -gt 1) { "{0}.{1:00}" -f $vg.prefix, $n } else { $vg.prefix }
@@ -218,7 +224,7 @@ foreach ($vg in @(Get-Prop $def "variables" @())) {
         foreach ($val in $values) {
             if (-not $first) { [void]$vocl.AppendLine("") }
             $first = $false
-            $text = if ($vReadsFrom -and $vReads) { "#{Octopus.Action[$(Get-TitleFromSlug $vReadsFrom)].Output.$vReads}" } else { "$fixedValue-$n" }
+            $text = if ($vReadsFrom -and $vReads) { "#{Octopus.Action[$(Get-TitleFromSlug $vReadsFrom)].Output.$vReads}" } else { $(if ($exactValue) { $fixedValue } else { "$fixedValue-$n" }) }
             $scopeLines = New-Object System.Collections.Generic.List[string]
             $scopeNames = @()
             foreach ($scopeKey in @("environment", "channel")) {

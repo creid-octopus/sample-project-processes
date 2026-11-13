@@ -12,9 +12,9 @@
     "withPackage": 12
   },
   "variables": {
-    "projectVariableCount": 61,
+    "projectVariableCount": 62,
     "scopedCount": 38,
-    "promptedCount": 4,
+    "promptedCount": 5,
     "referencingStepOutput": 3,
     "countByScopeType": {
       "Channel": 6,
