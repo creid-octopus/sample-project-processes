@@ -1,0 +1,40 @@
+name: octopus-mock-worker
+
+# A polling Tentacle registered as a worker in the "Local Container" pool of the
+# multi-tenant-testing space. It runs the script steps of the mock process on your
+# machine, which avoids the start-up time of hosted workers.
+#
+# Trimmed from a larger local setup: only the worker is here. There is no PowerShell
+# build, no Docker-in-Docker, and no databases, because the mock steps are plain bash.
+services:
+  worker:
+    image: octopusdeploy/tentacle:latest
+    platform: linux/amd64
+    container_name: octopus-mock-worker
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      # Docker-in-Docker is off. Set to "N" and add `privileged: true` only if a step needs containers.
+      DISABLE_DIND: ${DISABLE_DIND:-Y}
+      ServerUrl: ${OCTOPUS_SERVER_URL:?Set OCTOPUS_SERVER_URL in .env}
+      ServerApiKey: ${OCTOPUS_API_KEY:?Set OCTOPUS_API_KEY in .env}
+      # Polling over standard HTTPS (port 443) for Octopus Cloud, so no extra port is needed.
+      ServerCommsAddress: ${OCTOPUS_POLLING_ADDRESS:?Set OCTOPUS_POLLING_ADDRESS in .env}
+      ServerPort: "443"
+      Space: ${OCTOPUS_SPACE:-Multi-Tenant Testing}
+      TargetName: ${WORKER_NAME:-mock-worker}
+      TargetWorkerPool: ${WORKER_POOL:-Local Container}
+      PublicHostNameConfiguration: ComputerName
+    volumes:
+      # Worker identity and registration. Survives container recreates.
+      - worker-config:/etc/octopus
+      # Linux Tentacle derives its config encryption key from the machine id.
+      # Each Tentacle image ships its own, so pin it: otherwise an image update
+      # can no longer decrypt the config in the volume.
+      - ./worker-machine-id:/etc/machine-id:ro
+      - ./worker-machine-id:/var/lib/dbus/machine-id:ro
+      # Extracted packages. Kept on the host so they survive container recreates.
+      - ./worker-applications:/home/Octopus/Applications
+
+volumes:
+  worker-config:

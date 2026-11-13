@@ -16,3 +16,7 @@ anonymization-map.csv
 .env
 *.key
 .claude/settings.local.json
+
+# Local worker
+local-worker/worker-machine-id
+local-worker/worker-applications/
