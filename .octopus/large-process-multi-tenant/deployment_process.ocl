@@ -12,7 +12,7 @@ step "prepare-release" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -30,7 +30,7 @@ step "prepare-config" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -48,7 +48,7 @@ step "validate-inputs-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -66,7 +66,7 @@ step "validate-inputs-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -84,7 +84,7 @@ step "validate-inputs-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -104,7 +104,7 @@ step "pre-check-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -125,7 +125,7 @@ step "pre-check-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -146,7 +146,7 @@ step "pre-check-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -167,7 +167,7 @@ step "pre-check-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -188,7 +188,7 @@ step "pre-check-05" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -209,7 +209,7 @@ step "pre-check-06" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -230,7 +230,7 @@ step "pre-check-07" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -251,7 +251,7 @@ step "pre-check-08" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -272,7 +272,7 @@ step "pre-check-09" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -293,7 +293,7 @@ step "pre-check-10" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -314,7 +314,7 @@ step "pre-check-11" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -335,7 +335,7 @@ step "pre-check-12" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1005,7 +1005,7 @@ step "module-a-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1023,7 +1023,7 @@ step "module-a-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1258,7 +1258,7 @@ step "module-b-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module B"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1280,7 +1280,7 @@ step "module-b-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module B"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1489,7 +1489,7 @@ step "module-c-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module C"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1507,7 +1507,7 @@ step "module-c-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module C"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1525,7 +1525,7 @@ step "module-c-verify-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module C"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1716,7 +1716,7 @@ step "module-d-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1738,7 +1738,7 @@ step "module-d-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1883,7 +1883,7 @@ step "module-e-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module E"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -1901,7 +1901,7 @@ step "module-e-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module E"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2046,7 +2046,7 @@ step "module-f-verify-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module F"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2064,7 +2064,7 @@ step "module-f-verify-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Module Pack/Module F"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2082,7 +2082,7 @@ step "integration-one-connect-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2101,7 +2101,7 @@ step "integration-one-connect-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2120,7 +2120,7 @@ step "integration-one-connect-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2139,7 +2139,7 @@ step "integration-one-connect-04" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2158,7 +2158,7 @@ step "integration-one-connect-05" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2176,7 +2176,7 @@ step "integration-one-config-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2194,7 +2194,7 @@ step "integration-one-config-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2212,7 +2212,7 @@ step "integration-one-config-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2230,7 +2230,7 @@ step "integration-two-connect-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2249,7 +2249,7 @@ step "integration-two-connect-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2268,7 +2268,7 @@ step "integration-two-connect-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2287,7 +2287,7 @@ step "integration-two-connect-04" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2305,7 +2305,7 @@ step "integration-two-config-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2323,7 +2323,7 @@ step "integration-two-config-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2341,7 +2341,7 @@ step "integration-two-config-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2359,7 +2359,7 @@ step "integration-three-connect-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 3"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2378,7 +2378,7 @@ step "integration-three-connect-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 3"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2397,7 +2397,7 @@ step "integration-three-connect-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 3"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2415,7 +2415,7 @@ step "integration-three-config-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 3", "Module Pack/Module C"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2433,7 +2433,7 @@ step "integration-three-config-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Integration/Integration 3", "Module Pack/Module C"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2451,7 +2451,7 @@ step "server-only-config-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2469,7 +2469,7 @@ step "server-only-config-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2487,7 +2487,7 @@ step "server-only-config-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2505,7 +2505,7 @@ step "server-only-config-04" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2523,7 +2523,7 @@ step "server-only-config-05" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2541,7 +2541,7 @@ step "server-only-config-06" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Host Type/Server Only"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2779,7 +2779,7 @@ step "beta-only-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Pre-release/Beta Program"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2798,7 +2798,7 @@ step "beta-only-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Pre-release/Beta Program"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2817,7 +2817,7 @@ step "beta-only-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Pre-release/Beta Program"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2836,7 +2836,7 @@ step "beta-only-04" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Pre-release/Beta Program"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2855,7 +2855,7 @@ step "beta-only-05" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Pre-release/Beta Program"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2873,7 +2873,7 @@ step "hardening-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2891,7 +2891,7 @@ step "hardening-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2909,7 +2909,7 @@ step "hardening-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2927,7 +2927,7 @@ step "hardening-04" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2945,7 +2945,7 @@ step "hardening-workstation-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced", "Host Type/Server And Workstation"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2963,7 +2963,7 @@ step "hardening-workstation-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Hardening/Enhanced", "Host Type/Server And Workstation"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -2985,7 +2985,7 @@ step "hold-gate-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Hold"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3007,7 +3007,7 @@ step "hold-gate-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Hold"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3029,7 +3029,7 @@ step "hold-gate-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Hold"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3048,7 +3048,7 @@ step "fast-track-01" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Fast Track"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3067,7 +3067,7 @@ step "fast-track-02" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Fast Track"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3086,7 +3086,7 @@ step "fast-track-03" {
             Octopus.Action.Script.Syntax = "Bash"
         }
         tenant_tags = ["Rollout Control/Fast Track"]
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3104,7 +3104,7 @@ step "lab-only-diagnostic-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3122,7 +3122,7 @@ step "lab-only-diagnostic-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3140,7 +3140,7 @@ step "lab-only-diagnostic-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3158,7 +3158,7 @@ step "lab-only-diagnostic-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3176,7 +3176,7 @@ step "staging-and-production-verify-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3194,7 +3194,7 @@ step "staging-and-production-verify-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3212,7 +3212,7 @@ step "staging-and-production-verify-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3230,7 +3230,7 @@ step "staging-and-production-verify-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3248,7 +3248,7 @@ step "staging-and-production-verify-05" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3266,7 +3266,7 @@ step "skip-in-lab-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3284,7 +3284,7 @@ step "skip-in-lab-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3302,7 +3302,7 @@ step "skip-in-lab-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3320,7 +3320,7 @@ step "skip-in-lab-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3339,7 +3339,7 @@ step "production-only-notify-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3358,7 +3358,7 @@ step "production-only-notify-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3377,7 +3377,7 @@ step "production-only-notify-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3395,7 +3395,7 @@ step "acquire-on-server-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3422,7 +3422,7 @@ step "acquire-on-server-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3449,7 +3449,7 @@ step "acquire-on-server-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3476,7 +3476,7 @@ step "acquire-on-server-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3502,7 +3502,7 @@ step "acquire-variable-package-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3528,7 +3528,7 @@ step "acquire-variable-package-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "Server"
@@ -3554,7 +3554,7 @@ step "reference-not-acquired-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "NotAcquired"
@@ -3580,7 +3580,7 @@ step "reference-not-acquired-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
 
         packages {
             acquisition_location = "NotAcquired"
@@ -3607,7 +3607,7 @@ step "consume-build-id-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3625,7 +3625,7 @@ step "consume-build-id-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3643,7 +3643,7 @@ step "consume-build-id-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3661,7 +3661,7 @@ step "consume-build-id-04" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3680,7 +3680,7 @@ step "collect-metrics-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3699,7 +3699,7 @@ step "collect-metrics-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3718,7 +3718,7 @@ step "collect-metrics-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3736,7 +3736,7 @@ step "report-metrics-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3754,7 +3754,7 @@ step "report-metrics-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3772,7 +3772,7 @@ step "report-metrics-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3790,7 +3790,7 @@ step "paired-action-step-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 
     action "paired-action-step-01-action-2" {
@@ -3804,7 +3804,7 @@ step "paired-action-step-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3822,7 +3822,7 @@ step "paired-action-step-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 
     action "paired-action-step-02-action-2" {
@@ -3836,7 +3836,7 @@ step "paired-action-step-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3854,7 +3854,7 @@ step "paired-action-step-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 
     action "paired-action-step-03-action-2" {
@@ -3868,7 +3868,7 @@ step "paired-action-step-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3886,7 +3886,7 @@ step "disabled-step-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3904,7 +3904,7 @@ step "disabled-step-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3922,7 +3922,7 @@ step "disabled-step-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3940,7 +3940,7 @@ step "required-step-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3958,7 +3958,7 @@ step "required-step-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3976,7 +3976,7 @@ step "required-step-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -3994,7 +3994,7 @@ step "notify-on-failure-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -4012,7 +4012,7 @@ step "notify-on-failure-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -4030,7 +4030,7 @@ step "cleanup-always-01" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -4048,7 +4048,7 @@ step "cleanup-always-02" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }
 
@@ -4066,6 +4066,6 @@ step "cleanup-always-03" {
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        worker_pool = "hosted-ubuntu"
+        worker_pool = "local-container"
     }
 }

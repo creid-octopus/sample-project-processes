@@ -29,8 +29,8 @@ variable "project_name" {
 
 variable "target_worker_pool_name" {
   type        = string
-  description = "Worker pool the mock target uses to run scripts. Switch to \"Local Container\" once a worker is healthy in it."
-  default     = "Hosted Ubuntu"
+  description = "Worker pool the mock target uses to run scripts. Needs a healthy worker in that pool."
+  default     = "Local Container"
 
   validation {
     condition     = contains(["Hosted Ubuntu", "Local Container"], var.target_worker_pool_name)

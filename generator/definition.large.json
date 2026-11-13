@@ -1,5 +1,6 @@
 {
   "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages, output chains, multi-action steps, flags, and project variables.",
+  "workerPool": "local-container",
   "groups": [
     {
       "key": "prep-release",
