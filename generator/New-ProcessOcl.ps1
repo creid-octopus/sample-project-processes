@@ -190,6 +190,7 @@ foreach ($group in $def.groups) {
                 isRequired             = $isRequired
                 setsOutput             = $setsOutput
                 readsOutputFrom        = if ($readsOutput) { $readsOutputFrom } else { $null }
+                packageRequirement     = if ($packageRequirement) { $packageRequirement } else { "LetOctopusDecide" }
                 packageCount           = if ($package) { 1 } else { 0 }
                 packageAcquisition     = if ($package) { Get-Prop $package "acquisition" "Server" } else { $null }
                 marker                 = $marker

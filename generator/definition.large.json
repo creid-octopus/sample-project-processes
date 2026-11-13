@@ -1,5 +1,5 @@
 {
-  "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages, output chains, multi-action steps, flags, and project variables, and a test hook (Project.FailNow) that makes one step fail on demand.",
+  "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages (with valid ordering of the package requirements), output chains, multi-action steps, flags, and project variables, and a test hook (Project.FailNow) that makes one step fail on demand.",
   "workerPool": "local-container",
   "groups": [
     {
@@ -27,6 +27,14 @@
       "runsOn": "worker",
       "readsOutput": "BuildId",
       "readsOutputFrom": "prepare-release"
+    },
+    {
+      "key": "before-acq",
+      "name": "Run Before Acquisition",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "packageRequirement": "BeforePackageAcquisition"
     },
     {
       "key": "prechecks",
@@ -463,15 +471,14 @@
     {
       "key": "pkg-server",
       "name": "Acquire On Server",
-      "count": 4,
+      "count": 2,
       "layout": "sequential",
       "runsOn": "worker",
       "package": {
         "feed": "octopus-server-built-in",
         "packageId": "sample-server-pkg",
         "acquisition": "Server"
-      },
-      "packageRequirement": "BeforePackageAcquisition"
+      }
     },
     {
       "key": "pkg-var",

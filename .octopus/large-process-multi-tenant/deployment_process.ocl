@@ -89,6 +89,42 @@ step "validate-inputs-03" {
     }
 }
 
+step "run-before-acquisition-01" {
+    name = "Run Before Acquisition 01"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-run-before-acquisition-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "local-container"
+    }
+}
+
+step "run-before-acquisition-02" {
+    name = "Run Before Acquisition 02"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-run-before-acquisition-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "local-container"
+    }
+}
+
 step "pre-check-01" {
     name = "Pre Check 01"
     properties = {
@@ -3384,7 +3420,6 @@ step "production-only-notify-03" {
 
 step "acquire-on-server-01" {
     name = "Acquire On Server 01"
-    package_requirement = "BeforePackageAcquisition"
 
     action {
         action_type = "Octopus.Script"
@@ -3411,7 +3446,6 @@ step "acquire-on-server-01" {
 
 step "acquire-on-server-02" {
     name = "Acquire On Server 02"
-    package_requirement = "BeforePackageAcquisition"
 
     action {
         action_type = "Octopus.Script"
@@ -3419,60 +3453,6 @@ step "acquire-on-server-02" {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
                 echo SCRIPT-MARKER-acquire-on-server-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        worker_pool = "local-container"
-
-        packages {
-            acquisition_location = "Server"
-            feed = "octopus-server-built-in"
-            package_id = "sample-server-pkg"
-            properties = {
-                SelectionMode = "immediate"
-            }
-        }
-    }
-}
-
-step "acquire-on-server-03" {
-    name = "Acquire On Server 03"
-    package_requirement = "BeforePackageAcquisition"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-on-server-03
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        worker_pool = "local-container"
-
-        packages {
-            acquisition_location = "Server"
-            feed = "octopus-server-built-in"
-            package_id = "sample-server-pkg"
-            properties = {
-                SelectionMode = "immediate"
-            }
-        }
-    }
-}
-
-step "acquire-on-server-04" {
-    name = "Acquire On Server 04"
-    package_requirement = "BeforePackageAcquisition"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-on-server-04
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
