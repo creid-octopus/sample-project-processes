@@ -1,0 +1,55 @@
+{
+  "description": "Small starter process (about 25 steps). Every feature appears at least once.",
+  "groups": [
+    { "key": "core-prep", "name": "Core Prep", "count": 3, "layout": "sequential", "runsOn": "worker",
+      "setsOutput": "BuildId" },
+
+    { "key": "core-parallel", "name": "Core Parallel", "count": 4, "layout": "parallel", "runsOn": "worker",
+      "maxParallelism": "2" },
+
+    { "key": "module-a", "name": "Module A", "count": 2, "layout": "sequential", "runsOn": "worker",
+      "tenantTags": ["Module Pack/Module A"] },
+
+    { "key": "module-b", "name": "Module B", "count": 2, "layout": "sequential", "runsOn": "worker",
+      "tenantTags": ["Module Pack/Module B"],
+      "condition": "Variable",
+      "conditionExpression": "#{if Octopus.Environment.Name == \"Production\"}true#{/if}" },
+
+    { "key": "module-c", "name": "Module C", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "tenantTags": ["Module Pack/Module C", "Module Pack/Module D"] },
+
+    { "key": "integration", "name": "Integration", "count": 3, "layout": "parallel", "runsOn": "worker",
+      "tenantTags": ["Integration/Integration 1", "Integration/Integration 2"] },
+
+    { "key": "hardening", "name": "Hardening", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "tenantTags": ["Hardening/Enhanced", "Host Type/Server And Workstation"] },
+
+    { "key": "beta-only", "name": "Beta Only", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "tenantTags": ["Pre-release/Beta Program"], "channels": ["beta"] },
+
+    { "key": "scoped", "name": "Scoped To Environments", "count": 2, "layout": "sequential", "runsOn": "worker",
+      "environments": ["lab", "staging"], "excludedEnvironments": [] },
+
+    { "key": "not-lab", "name": "Skip In Lab", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "excludedEnvironments": ["lab"] },
+
+    { "key": "package", "name": "Deploy Package", "count": 1, "layout": "sequential", "runsOn": "targets",
+      "targetRole": "app-server", "packageRequirement": "AfterPackageAcquisition",
+      "package": { "feed": "octopus-server-built-in", "packageId": "sample-app", "acquisition": "ExecutionTarget" } },
+
+    { "key": "reads-output", "name": "Use Build Id", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "readsOutputFrom": "core-prep-01", "readsOutput": "BuildId" },
+
+    { "key": "disabled", "name": "Disabled Step", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "isDisabled": true },
+
+    { "key": "required", "name": "Required Step", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "isRequired": true },
+
+    { "key": "on-failure", "name": "Notify On Failure", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "condition": "Failure" },
+
+    { "key": "always", "name": "Cleanup Always", "count": 1, "layout": "sequential", "runsOn": "worker",
+      "condition": "Always" }
+  ]
+}
