@@ -4,11 +4,12 @@ step "prepare-release" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.AutoRetry.MaximumCount = "3"
+            Octopus.Action.AutoRetry.MinimumBackoff = "15"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-prepare-release
-                set_octopusvariable "BuildId" "value-prepare-release"
-            EOT
+                    echo SCRIPT-MARKER-prepare-release
+                    set_octopusvariable "BuildId" "value-prepare-release"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -22,12 +23,11 @@ step "prepare-config" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-prepare-config
-                set_octopusvariable "ConfigPath" "value-prepare-config"
-                if [ "#{Project.FailNow}" = "true" ]; then echo "simulated failure"; exit 1; fi
-            EOT
+                    echo SCRIPT-MARKER-prepare-config
+                    set_octopusvariable "ConfigPath" "value-prepare-config"
+                    if [ "#{Project.FailNow}" = "true" ]; then echo "simulated failure"; exit 1; fi
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -41,11 +41,10 @@ step "validate-inputs-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-validate-inputs-01
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-validate-inputs-01
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -59,11 +58,10 @@ step "validate-inputs-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-validate-inputs-02
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-validate-inputs-02
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -77,11 +75,10 @@ step "validate-inputs-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-validate-inputs-03
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-validate-inputs-03
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -96,10 +93,7 @@ step "run-before-acquisition-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-run-before-acquisition-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-run-before-acquisition-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -114,10 +108,7 @@ step "run-before-acquisition-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-run-before-acquisition-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-run-before-acquisition-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -134,10 +125,7 @@ step "pre-check-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -155,10 +143,7 @@ step "pre-check-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -176,10 +161,7 @@ step "pre-check-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -197,10 +179,7 @@ step "pre-check-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -218,10 +197,7 @@ step "pre-check-05" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -239,10 +215,7 @@ step "pre-check-06" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -260,10 +233,7 @@ step "pre-check-07" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-07
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-07"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -281,10 +251,7 @@ step "pre-check-08" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-08
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-08"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -302,10 +269,7 @@ step "pre-check-09" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-09
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-09"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -323,10 +287,7 @@ step "pre-check-10" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-10
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-10"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -344,10 +305,7 @@ step "pre-check-11" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-11
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-11"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -365,10 +323,7 @@ step "pre-check-12" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-pre-check-12
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-pre-check-12"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -386,9 +341,7 @@ step "database-prep-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -405,9 +358,7 @@ step "database-prep-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -424,9 +375,7 @@ step "database-prep-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -443,9 +392,7 @@ step "database-prep-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -462,9 +409,7 @@ step "database-prep-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -481,9 +426,7 @@ step "database-prep-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-database-prep-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-database-prep-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -501,9 +444,7 @@ step "shared-library-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -522,9 +463,7 @@ step "shared-library-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -543,9 +482,7 @@ step "shared-library-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -564,9 +501,7 @@ step "shared-library-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -585,9 +520,7 @@ step "shared-library-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -606,9 +539,7 @@ step "shared-library-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -627,9 +558,7 @@ step "shared-library-07" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-07
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-07"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -648,9 +577,7 @@ step "shared-library-08" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-shared-library-08
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-shared-library-08"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -667,10 +594,10 @@ step "base-install-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Package.DownloadOnTentacle = "True"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptFileName = "run.sh"
             Octopus.Action.Script.ScriptSource = "Package"
         }
@@ -696,10 +623,10 @@ step "base-install-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Package.DownloadOnTentacle = "True"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptFileName = "run.sh"
             Octopus.Action.Script.ScriptSource = "Package"
         }
@@ -725,10 +652,10 @@ step "base-install-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Package.DownloadOnTentacle = "True"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptFileName = "run.sh"
             Octopus.Action.Script.ScriptSource = "Package"
         }
@@ -754,10 +681,10 @@ step "base-install-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Package.DownloadOnTentacle = "True"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptFileName = "run.sh"
             Octopus.Action.Script.ScriptSource = "Package"
         }
@@ -783,9 +710,7 @@ step "module-a-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -803,9 +728,7 @@ step "module-a-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -823,9 +746,7 @@ step "module-a-schema-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-schema-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-schema-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -843,9 +764,7 @@ step "module-a-schema-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-schema-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-schema-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -864,9 +783,7 @@ step "module-a-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -886,9 +803,7 @@ step "module-a-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -908,9 +823,7 @@ step "module-a-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -930,9 +843,7 @@ step "module-a-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -952,9 +863,7 @@ step "module-a-install-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -974,9 +883,7 @@ step "module-a-install-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -996,9 +903,7 @@ step "module-a-install-07" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-07
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-07"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1018,9 +923,7 @@ step "module-a-install-08" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-install-08
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-install-08"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1034,10 +937,7 @@ step "module-a-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1052,10 +952,7 @@ step "module-a-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-a-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1074,9 +971,7 @@ step "module-b-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1094,9 +989,7 @@ step "module-b-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1114,9 +1007,7 @@ step "module-b-schema-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-schema-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-schema-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1135,9 +1026,7 @@ step "module-b-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1157,9 +1046,7 @@ step "module-b-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1179,9 +1066,7 @@ step "module-b-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1201,9 +1086,7 @@ step "module-b-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1223,9 +1106,7 @@ step "module-b-install-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1245,9 +1126,7 @@ step "module-b-install-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1267,9 +1146,7 @@ step "module-b-install-07" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-install-07
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-install-07"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1278,8 +1155,8 @@ step "module-b-install-07" {
 }
 
 step "module-b-verify-01" {
-    name = "Module B Verify 01"
     condition = "Variable"
+    name = "Module B Verify 01"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
     }
@@ -1287,10 +1164,7 @@ step "module-b-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1300,8 +1174,8 @@ step "module-b-verify-01" {
 }
 
 step "module-b-verify-02" {
-    name = "Module B Verify 02"
     condition = "Variable"
+    name = "Module B Verify 02"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
     }
@@ -1309,10 +1183,7 @@ step "module-b-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-b-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1331,9 +1202,7 @@ step "module-c-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1351,9 +1220,7 @@ step "module-c-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1371,9 +1238,7 @@ step "module-c-schema-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-schema-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-schema-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1392,9 +1257,7 @@ step "module-c-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1414,9 +1277,7 @@ step "module-c-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1436,9 +1297,7 @@ step "module-c-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1458,9 +1317,7 @@ step "module-c-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1480,9 +1337,7 @@ step "module-c-install-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1502,9 +1357,7 @@ step "module-c-install-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-install-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-install-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1518,10 +1371,7 @@ step "module-c-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1536,10 +1386,7 @@ step "module-c-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1554,10 +1401,7 @@ step "module-c-verify-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c-verify-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-c-verify-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1576,9 +1420,7 @@ step "module-d-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1596,9 +1438,7 @@ step "module-d-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1616,9 +1456,7 @@ step "module-d-schema-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-schema-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-schema-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1637,9 +1475,7 @@ step "module-d-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1659,9 +1495,7 @@ step "module-d-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1681,9 +1515,7 @@ step "module-d-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1703,9 +1535,7 @@ step "module-d-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1725,9 +1555,7 @@ step "module-d-install-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-install-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-install-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1736,8 +1564,8 @@ step "module-d-install-05" {
 }
 
 step "module-d-verify-01" {
-    name = "Module D Verify 01"
     condition = "Variable"
+    name = "Module D Verify 01"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Project.Feature.Flag}#{/unless}"
     }
@@ -1745,10 +1573,7 @@ step "module-d-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1758,8 +1583,8 @@ step "module-d-verify-01" {
 }
 
 step "module-d-verify-02" {
-    name = "Module D Verify 02"
     condition = "Variable"
+    name = "Module D Verify 02"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Project.Feature.Flag}#{/unless}"
     }
@@ -1767,10 +1592,7 @@ step "module-d-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-d-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-d-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1789,9 +1611,7 @@ step "module-e-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1809,9 +1629,7 @@ step "module-e-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1830,9 +1648,7 @@ step "module-e-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1852,9 +1668,7 @@ step "module-e-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1874,9 +1688,7 @@ step "module-e-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1896,9 +1708,7 @@ step "module-e-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1912,10 +1722,7 @@ step "module-e-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1930,10 +1737,7 @@ step "module-e-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-e-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-e-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1952,9 +1756,7 @@ step "module-f-schema-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-schema-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-schema-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1972,9 +1774,7 @@ step "module-f-schema-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-schema-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-schema-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -1993,9 +1793,7 @@ step "module-f-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-install-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-install-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2015,9 +1813,7 @@ step "module-f-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-install-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-install-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2037,9 +1833,7 @@ step "module-f-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-install-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-install-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2059,9 +1853,7 @@ step "module-f-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-install-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-install-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2075,10 +1867,7 @@ step "module-f-verify-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2093,10 +1882,7 @@ step "module-f-verify-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-f-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-module-f-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2111,10 +1897,7 @@ step "integration-one-connect-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-connect-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-connect-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2130,10 +1913,7 @@ step "integration-one-connect-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-connect-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-connect-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2149,10 +1929,7 @@ step "integration-one-connect-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-connect-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-connect-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2168,10 +1945,7 @@ step "integration-one-connect-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-connect-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-connect-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2187,10 +1961,7 @@ step "integration-one-connect-05" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-connect-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-connect-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2205,10 +1976,7 @@ step "integration-one-config-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-config-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-config-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2223,10 +1991,7 @@ step "integration-one-config-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-config-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-config-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2241,10 +2006,7 @@ step "integration-one-config-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-one-config-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-one-config-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2259,10 +2021,7 @@ step "integration-two-connect-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-connect-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-connect-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2278,10 +2037,7 @@ step "integration-two-connect-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-connect-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-connect-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2297,10 +2053,7 @@ step "integration-two-connect-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-connect-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-connect-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2316,10 +2069,7 @@ step "integration-two-connect-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-connect-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-connect-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2334,10 +2084,7 @@ step "integration-two-config-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-config-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-config-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2352,10 +2099,7 @@ step "integration-two-config-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-config-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-config-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2370,10 +2114,7 @@ step "integration-two-config-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-two-config-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-two-config-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2388,10 +2129,7 @@ step "integration-three-connect-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-three-connect-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-three-connect-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2407,10 +2145,7 @@ step "integration-three-connect-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-three-connect-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-three-connect-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2426,10 +2161,7 @@ step "integration-three-connect-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-three-connect-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-three-connect-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2444,10 +2176,7 @@ step "integration-three-config-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-three-config-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-three-config-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2462,10 +2191,7 @@ step "integration-three-config-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-three-config-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-integration-three-config-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2480,10 +2206,7 @@ step "server-only-config-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2498,10 +2221,7 @@ step "server-only-config-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2516,10 +2236,7 @@ step "server-only-config-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2534,10 +2251,7 @@ step "server-only-config-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2552,10 +2266,7 @@ step "server-only-config-05" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2570,10 +2281,7 @@ step "server-only-config-06" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-server-only-config-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-server-only-config-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2593,9 +2301,7 @@ step "workstation-setup-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2615,9 +2321,7 @@ step "workstation-setup-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2637,9 +2341,7 @@ step "workstation-setup-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2659,9 +2361,7 @@ step "workstation-setup-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2681,9 +2381,7 @@ step "workstation-setup-05" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2703,9 +2401,7 @@ step "workstation-setup-06" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-06
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-06"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2725,9 +2421,7 @@ step "workstation-setup-07" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-07
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-07"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2747,9 +2441,7 @@ step "workstation-setup-08" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-08
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-08"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2769,9 +2461,7 @@ step "workstation-setup-09" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-09
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-09"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2791,9 +2481,7 @@ step "workstation-setup-10" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-workstation-setup-10
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-workstation-setup-10"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2808,10 +2496,7 @@ step "beta-only-01" {
         action_type = "Octopus.Script"
         channels = ["beta"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-beta-only-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2827,10 +2512,7 @@ step "beta-only-02" {
         action_type = "Octopus.Script"
         channels = ["beta"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-beta-only-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2846,10 +2528,7 @@ step "beta-only-03" {
         action_type = "Octopus.Script"
         channels = ["beta"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-beta-only-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2865,10 +2544,7 @@ step "beta-only-04" {
         action_type = "Octopus.Script"
         channels = ["beta"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-beta-only-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2884,10 +2560,7 @@ step "beta-only-05" {
         action_type = "Octopus.Script"
         channels = ["beta"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-beta-only-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2902,10 +2575,7 @@ step "hardening-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2920,10 +2590,7 @@ step "hardening-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2938,10 +2605,7 @@ step "hardening-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2956,10 +2620,7 @@ step "hardening-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2974,10 +2635,7 @@ step "hardening-workstation-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-workstation-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-workstation-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -2992,10 +2650,7 @@ step "hardening-workstation-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening-workstation-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hardening-workstation-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3005,8 +2660,8 @@ step "hardening-workstation-02" {
 }
 
 step "hold-gate-01" {
-    name = "Hold Gate 01"
     condition = "Variable"
+    name = "Hold Gate 01"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
     }
@@ -3014,10 +2669,7 @@ step "hold-gate-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hold-gate-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hold-gate-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3027,8 +2679,8 @@ step "hold-gate-01" {
 }
 
 step "hold-gate-02" {
-    name = "Hold Gate 02"
     condition = "Variable"
+    name = "Hold Gate 02"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
     }
@@ -3036,10 +2688,7 @@ step "hold-gate-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hold-gate-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hold-gate-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3049,8 +2698,8 @@ step "hold-gate-02" {
 }
 
 step "hold-gate-03" {
-    name = "Hold Gate 03"
     condition = "Variable"
+    name = "Hold Gate 03"
     properties = {
         Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
     }
@@ -3058,10 +2707,7 @@ step "hold-gate-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hold-gate-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-hold-gate-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3077,10 +2723,7 @@ step "fast-track-01" {
         action_type = "Octopus.Script"
         channels = ["release"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-fast-track-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-fast-track-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3096,10 +2739,7 @@ step "fast-track-02" {
         action_type = "Octopus.Script"
         channels = ["release"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-fast-track-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-fast-track-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3115,10 +2755,7 @@ step "fast-track-03" {
         action_type = "Octopus.Script"
         channels = ["release"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-fast-track-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-fast-track-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3134,10 +2771,7 @@ step "lab-only-diagnostic-01" {
         action_type = "Octopus.Script"
         environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-lab-only-diagnostic-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-lab-only-diagnostic-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3152,10 +2786,7 @@ step "lab-only-diagnostic-02" {
         action_type = "Octopus.Script"
         environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-lab-only-diagnostic-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-lab-only-diagnostic-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3170,10 +2801,7 @@ step "lab-only-diagnostic-03" {
         action_type = "Octopus.Script"
         environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-lab-only-diagnostic-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-lab-only-diagnostic-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3188,10 +2816,7 @@ step "lab-only-diagnostic-04" {
         action_type = "Octopus.Script"
         environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-lab-only-diagnostic-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-lab-only-diagnostic-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3206,10 +2831,7 @@ step "staging-and-production-verify-01" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-staging-and-production-verify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-staging-and-production-verify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3224,10 +2846,7 @@ step "staging-and-production-verify-02" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-staging-and-production-verify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-staging-and-production-verify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3242,10 +2861,7 @@ step "staging-and-production-verify-03" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-staging-and-production-verify-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-staging-and-production-verify-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3260,10 +2876,7 @@ step "staging-and-production-verify-04" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-staging-and-production-verify-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-staging-and-production-verify-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3278,10 +2891,7 @@ step "staging-and-production-verify-05" {
         action_type = "Octopus.Script"
         environments = ["staging", "production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-staging-and-production-verify-05
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-staging-and-production-verify-05"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3296,10 +2906,7 @@ step "skip-in-lab-01" {
         action_type = "Octopus.Script"
         excluded_environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-skip-in-lab-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-skip-in-lab-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3314,10 +2921,7 @@ step "skip-in-lab-02" {
         action_type = "Octopus.Script"
         excluded_environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-skip-in-lab-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-skip-in-lab-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3332,10 +2936,7 @@ step "skip-in-lab-03" {
         action_type = "Octopus.Script"
         excluded_environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-skip-in-lab-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-skip-in-lab-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3350,10 +2951,7 @@ step "skip-in-lab-04" {
         action_type = "Octopus.Script"
         excluded_environments = ["lab"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-skip-in-lab-04
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-skip-in-lab-04"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3366,13 +2964,10 @@ step "production-only-notify-01" {
 
     action {
         action_type = "Octopus.Script"
-        environments = ["production"]
         channels = ["release"]
+        environments = ["production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-production-only-notify-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-production-only-notify-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3385,13 +2980,10 @@ step "production-only-notify-02" {
 
     action {
         action_type = "Octopus.Script"
-        environments = ["production"]
         channels = ["release"]
+        environments = ["production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-production-only-notify-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-production-only-notify-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3404,13 +2996,10 @@ step "production-only-notify-03" {
 
     action {
         action_type = "Octopus.Script"
-        environments = ["production"]
         channels = ["release"]
+        environments = ["production"]
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-production-only-notify-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-production-only-notify-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3424,7 +3013,6 @@ step "acquire-on-server-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-server-pkg"
@@ -3450,7 +3038,6 @@ step "acquire-on-server-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "sample-server-pkg"
@@ -3476,7 +3063,6 @@ step "acquire-variable-package-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "#{Package.Id}"
@@ -3502,7 +3088,6 @@ step "acquire-variable-package-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Package.DownloadOnTentacle = "False"
             Octopus.Action.Package.FeedId = "octopus-server-built-in"
             Octopus.Action.Package.PackageId = "#{Package.Id}"
@@ -3528,10 +3113,7 @@ step "reference-not-acquired-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-reference-not-acquired-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-reference-not-acquired-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3556,10 +3138,7 @@ step "reference-not-acquired-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-reference-not-acquired-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-reference-not-acquired-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3584,11 +3163,10 @@ step "consume-build-id-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-consume-build-id-01
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-consume-build-id-01
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3602,11 +3180,10 @@ step "consume-build-id-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-consume-build-id-02
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-consume-build-id-02
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3620,11 +3197,10 @@ step "consume-build-id-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-consume-build-id-03
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-consume-build-id-03
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3638,11 +3214,10 @@ step "consume-build-id-04" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-consume-build-id-04
-                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
-            EOT
+                    echo SCRIPT-MARKER-consume-build-id-04
+                    echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3657,11 +3232,10 @@ step "collect-metrics-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-collect-metrics-01
-                set_octopusvariable "Metrics" "value-collect-metrics-01"
-            EOT
+                    echo SCRIPT-MARKER-collect-metrics-01
+                    set_octopusvariable "Metrics" "value-collect-metrics-01"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3676,11 +3250,10 @@ step "collect-metrics-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-collect-metrics-02
-                set_octopusvariable "Metrics" "value-collect-metrics-02"
-            EOT
+                    echo SCRIPT-MARKER-collect-metrics-02
+                    set_octopusvariable "Metrics" "value-collect-metrics-02"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3695,11 +3268,10 @@ step "collect-metrics-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-collect-metrics-03
-                set_octopusvariable "Metrics" "value-collect-metrics-03"
-            EOT
+                    echo SCRIPT-MARKER-collect-metrics-03
+                    set_octopusvariable "Metrics" "value-collect-metrics-03"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3713,11 +3285,10 @@ step "report-metrics-01" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-report-metrics-01
-                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
-            EOT
+                    echo SCRIPT-MARKER-report-metrics-01
+                    echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3731,11 +3302,10 @@ step "report-metrics-02" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-report-metrics-02
-                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
-            EOT
+                    echo SCRIPT-MARKER-report-metrics-02
+                    echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3749,11 +3319,10 @@ step "report-metrics-03" {
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-report-metrics-03
-                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
-            EOT
+                    echo SCRIPT-MARKER-report-metrics-03
+                    echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+                EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3768,10 +3337,7 @@ step "paired-action-step-01" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 01 - Action 1"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-01-action-1
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-01-action-1"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3782,10 +3348,7 @@ step "paired-action-step-01" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 01 - Action 2"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-01-action-2
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-01-action-2"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3800,10 +3363,7 @@ step "paired-action-step-02" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 02 - Action 1"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-02-action-1
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-02-action-1"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3814,10 +3374,7 @@ step "paired-action-step-02" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 02 - Action 2"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-02-action-2
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-02-action-2"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3832,10 +3389,7 @@ step "paired-action-step-03" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 03 - Action 1"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-03-action-1
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-03-action-1"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3846,10 +3400,7 @@ step "paired-action-step-03" {
         action_type = "Octopus.Script"
         name = "Paired Action Step 03 - Action 2"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-paired-action-step-03-action-2
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-paired-action-step-03-action-2"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3864,10 +3415,7 @@ step "disabled-step-01" {
         action_type = "Octopus.Script"
         is_disabled = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-disabled-step-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-disabled-step-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3882,10 +3430,7 @@ step "disabled-step-02" {
         action_type = "Octopus.Script"
         is_disabled = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-disabled-step-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-disabled-step-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3900,10 +3445,7 @@ step "disabled-step-03" {
         action_type = "Octopus.Script"
         is_disabled = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-disabled-step-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-disabled-step-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3918,10 +3460,7 @@ step "required-step-01" {
         action_type = "Octopus.Script"
         is_required = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-required-step-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-required-step-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3936,10 +3475,7 @@ step "required-step-02" {
         action_type = "Octopus.Script"
         is_required = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-required-step-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-required-step-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3954,10 +3490,7 @@ step "required-step-03" {
         action_type = "Octopus.Script"
         is_required = true
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-required-step-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-required-step-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3966,16 +3499,13 @@ step "required-step-03" {
 }
 
 step "notify-on-failure-01" {
-    name = "Notify On Failure 01"
     condition = "Failure"
+    name = "Notify On Failure 01"
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-notify-on-failure-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-notify-on-failure-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -3984,16 +3514,13 @@ step "notify-on-failure-01" {
 }
 
 step "notify-on-failure-02" {
-    name = "Notify On Failure 02"
     condition = "Failure"
+    name = "Notify On Failure 02"
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-notify-on-failure-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-notify-on-failure-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -4002,16 +3529,13 @@ step "notify-on-failure-02" {
 }
 
 step "cleanup-always-01" {
-    name = "Cleanup Always 01"
     condition = "Always"
+    name = "Cleanup Always 01"
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-cleanup-always-01
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-cleanup-always-01"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -4020,16 +3544,13 @@ step "cleanup-always-01" {
 }
 
 step "cleanup-always-02" {
-    name = "Cleanup Always 02"
     condition = "Always"
+    name = "Cleanup Always 02"
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-cleanup-always-02
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-cleanup-always-02"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
@@ -4038,16 +3559,13 @@ step "cleanup-always-02" {
 }
 
 step "cleanup-always-03" {
-    name = "Cleanup Always 03"
     condition = "Always"
+    name = "Cleanup Always 03"
 
     action {
         action_type = "Octopus.Script"
         properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-cleanup-always-03
-            EOT
+            Octopus.Action.Script.ScriptBody = "    echo SCRIPT-MARKER-cleanup-always-03"
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
