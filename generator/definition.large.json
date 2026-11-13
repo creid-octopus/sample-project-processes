@@ -72,7 +72,8 @@
       "package": {
         "feed": "octopus-server-built-in",
         "packageId": "sample-base",
-        "acquisition": "ExecutionTarget"
+        "acquisition": "ExecutionTarget",
+        "mode": "script"
       }
     },
     {
@@ -477,7 +478,8 @@
       "package": {
         "feed": "octopus-server-built-in",
         "packageId": "sample-server-pkg",
-        "acquisition": "Server"
+        "acquisition": "Server",
+        "mode": "script"
       }
     },
     {
@@ -489,7 +491,8 @@
       "package": {
         "feed": "octopus-server-built-in",
         "packageId": "#{Package.Id}",
-        "acquisition": "Server"
+        "acquisition": "Server",
+        "mode": "script"
       }
     },
     {
@@ -501,7 +504,9 @@
       "package": {
         "feed": "octopus-server-built-in",
         "packageId": "sample-ref-pkg",
-        "acquisition": "NotAcquired"
+        "acquisition": "NotAcquired",
+        "mode": "reference",
+        "reference": "ref-package"
       }
     },
     {

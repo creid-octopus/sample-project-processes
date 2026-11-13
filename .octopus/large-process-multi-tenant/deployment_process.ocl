@@ -668,11 +668,11 @@ step "base-install-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-base-install-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "True"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
 
         packages {
@@ -697,11 +697,11 @@ step "base-install-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-base-install-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "True"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
 
         packages {
@@ -726,11 +726,11 @@ step "base-install-03" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-base-install-03
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "True"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
 
         packages {
@@ -755,11 +755,11 @@ step "base-install-04" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "false"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-base-install-04
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "True"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-base"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
 
         packages {
@@ -3425,11 +3425,11 @@ step "acquire-on-server-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-on-server-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-server-pkg"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
         worker_pool = "local-container"
 
@@ -3451,11 +3451,11 @@ step "acquire-on-server-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-on-server-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "sample-server-pkg"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
         worker_pool = "local-container"
 
@@ -3477,11 +3477,11 @@ step "acquire-variable-package-01" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-variable-package-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "#{Package.Id}"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
         worker_pool = "local-container"
 
@@ -3503,11 +3503,11 @@ step "acquire-variable-package-02" {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-acquire-variable-package-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
+            Octopus.Action.Package.DownloadOnTentacle = "False"
+            Octopus.Action.Package.FeedId = "octopus-server-built-in"
+            Octopus.Action.Package.PackageId = "#{Package.Id}"
+            Octopus.Action.Script.ScriptFileName = "run.sh"
+            Octopus.Action.Script.ScriptSource = "Package"
         }
         worker_pool = "local-container"
 
@@ -3537,11 +3537,13 @@ step "reference-not-acquired-01" {
         }
         worker_pool = "local-container"
 
-        packages {
+        packages "ref-package" {
             acquisition_location = "NotAcquired"
             feed = "octopus-server-built-in"
             package_id = "sample-ref-pkg"
             properties = {
+                Extract = "False"
+                Purpose = ""
                 SelectionMode = "immediate"
             }
         }
@@ -3563,11 +3565,13 @@ step "reference-not-acquired-02" {
         }
         worker_pool = "local-container"
 
-        packages {
+        packages "ref-package" {
             acquisition_location = "NotAcquired"
             feed = "octopus-server-built-in"
             package_id = "sample-ref-pkg"
             properties = {
+                Extract = "False"
+                Purpose = ""
                 SelectionMode = "immediate"
             }
         }

@@ -136,22 +136,36 @@ foreach ($group in $def.groups) {
             if ($runsOn -ne "targets") { [void]$ocl.AppendLine('            Octopus.Action.RunOnServer = "true"') }
             else { [void]$ocl.AppendLine('            Octopus.Action.RunOnServer = "false"') }
 
-            $body = New-Object System.Collections.Generic.List[string]
+            # A package is linked in one of two ways, because an inline script cannot carry an unnamed package:
+            #   mode "script"    the script runs from the package (ScriptSource Package, linked by properties)
+            #   mode "reference" an inline script with a named, referenced package
+            $packageMode = if ($package) { Get-Prop $package "mode" "script" } else { $null }
             $marker = "SCRIPT-MARKER-$actionSlug"
-            $body.Add("echo $marker")
-            if ($setsOutput) { $body.Add("set_octopusvariable `"$setsOutput`" `"value-$actionSlug`"") }
-            if ($failsWhenVariable) {
-                # Test hook: the step fails on purpose when the variable is "true".
-                $body.Add("if [ `"#{$failsWhenVariable}`" = `"true`" ]; then echo `"simulated failure`"; exit 1; fi")
+            if ($packageMode -eq "script") {
+                $downloadOnTentacle = if ((Get-Prop $package "acquisition" "Server") -eq "ExecutionTarget") { "True" } else { "False" }
+                [void]$ocl.AppendLine("            Octopus.Action.Package.DownloadOnTentacle = $(ConvertTo-OclString $downloadOnTentacle)")
+                [void]$ocl.AppendLine("            Octopus.Action.Package.FeedId = $(ConvertTo-OclString $package.feed)")
+                [void]$ocl.AppendLine("            Octopus.Action.Package.PackageId = $(ConvertTo-OclString $package.packageId)")
+                [void]$ocl.AppendLine('            Octopus.Action.Script.ScriptFileName = "run.sh"')
+                [void]$ocl.AppendLine('            Octopus.Action.Script.ScriptSource = "Package"')
             }
-            if ($readsOutput -and $readsOutputFrom) {
-                $body.Add("echo `"#{Octopus.Action[$(Get-TitleFromSlug $readsOutputFrom)].Output.$readsOutput}`"")
+            else {
+                $body = New-Object System.Collections.Generic.List[string]
+                $body.Add("echo $marker")
+                if ($setsOutput) { $body.Add("set_octopusvariable `"$setsOutput`" `"value-$actionSlug`"") }
+                if ($failsWhenVariable) {
+                    # Test hook: the step fails on purpose when the variable is "true".
+                    $body.Add("if [ `"#{$failsWhenVariable}`" = `"true`" ]; then echo `"simulated failure`"; exit 1; fi")
+                }
+                if ($readsOutput -and $readsOutputFrom) {
+                    $body.Add("echo `"#{Octopus.Action[$(Get-TitleFromSlug $readsOutputFrom)].Output.$readsOutput}`"")
+                }
+                [void]$ocl.AppendLine("            Octopus.Action.Script.ScriptBody = <<-EOT")
+                foreach ($line in $body) { [void]$ocl.AppendLine("                $line") }
+                [void]$ocl.AppendLine("            EOT")
+                [void]$ocl.AppendLine('            Octopus.Action.Script.ScriptSource = "Inline"')
+                [void]$ocl.AppendLine('            Octopus.Action.Script.Syntax = "Bash"')
             }
-            [void]$ocl.AppendLine("            Octopus.Action.Script.ScriptBody = <<-EOT")
-            foreach ($line in $body) { [void]$ocl.AppendLine("                $line") }
-            [void]$ocl.AppendLine("            EOT")
-            [void]$ocl.AppendLine('            Octopus.Action.Script.ScriptSource = "Inline"')
-            [void]$ocl.AppendLine('            Octopus.Action.Script.Syntax = "Bash"')
             [void]$ocl.AppendLine("        }")
 
             if ($tags.Count -gt 0) { [void]$ocl.AppendLine("        tenant_tags = $(Format-OclList $tags)") }
@@ -159,11 +173,17 @@ foreach ($group in $def.groups) {
 
             if ($package) {
                 [void]$ocl.AppendLine("")
-                [void]$ocl.AppendLine("        packages {")
+                $referenceName = Get-Prop $package "reference" "reference-package"
+                if ($packageMode -eq "reference") { [void]$ocl.AppendLine("        packages $(ConvertTo-OclString $referenceName) {") }
+                else { [void]$ocl.AppendLine("        packages {") }
                 [void]$ocl.AppendLine("            acquisition_location = $(ConvertTo-OclString (Get-Prop $package 'acquisition' 'Server'))")
                 [void]$ocl.AppendLine("            feed = $(ConvertTo-OclString $package.feed)")
                 [void]$ocl.AppendLine("            package_id = $(ConvertTo-OclString $package.packageId)")
                 [void]$ocl.AppendLine("            properties = {")
+                if ($packageMode -eq "reference") {
+                    [void]$ocl.AppendLine('                Extract = "False"')
+                    [void]$ocl.AppendLine('                Purpose = ""')
+                }
                 [void]$ocl.AppendLine('                SelectionMode = "immediate"')
                 [void]$ocl.AppendLine("            }")
                 [void]$ocl.AppendLine("        }")
@@ -192,6 +212,7 @@ foreach ($group in $def.groups) {
                 readsOutputFrom        = if ($readsOutput) { $readsOutputFrom } else { $null }
                 packageRequirement     = if ($packageRequirement) { $packageRequirement } else { "LetOctopusDecide" }
                 packageCount           = if ($package) { 1 } else { 0 }
+                packageReference       = if ($package) { if ($packageMode -eq "reference") { Get-Prop $package "reference" "reference-package" } else { "(primary)" } } else { $null }
                 packageAcquisition     = if ($package) { Get-Prop $package "acquisition" "Server" } else { $null }
                 marker                 = $marker
             })
