@@ -84,9 +84,15 @@ The instance license allows 10 tenants across all spaces, so this space has 5. T
 ## Not built yet
 
 * Version rules on channels. They refer to steps by name, so they come after the process settles.
-* More deployment targets, for server versus workstation splits and unavailable machines. One Cloud Region target (`mock-target-all`) is registered for every environment, tenant, and role. It needs no real machine and counts as one machine against the license.
+* Targets that go unavailable. Cloud Region targets are always healthy, so only a disabled workstation models an out-of-service machine.
 * Telemetry data: releases and scheduled deployments, including failures and redeploys.
 * Comparison scripts and the privacy checks.
+
+## Targets
+
+Each tenant has one server and a few workstations, all Cloud Region targets, so none of them need a real machine. The `Machine Type` tag set (scope `Target`) marks which is which. One workstation is disabled. `terraform output expected_targets` prints the expected inventory.
+
+Known provider issue: target tag names must be unique across all target tag sets, ignoring case. A tag named `Workstation` clashes with the `workstation` role, and provider 1.21.2 then crashes with a nil pointer instead of reporting the error. The tags are named `Server Machine` and `Workstation Machine` for that reason.
 
 ## Safety
 
