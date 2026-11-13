@@ -20,8 +20,9 @@ step "prepare-release" {
 step "prepare-config" {
     name = "Prepare Config"
 
-    action {
+    action "prepare-config" {
         action_type = "Octopus.Script"
+        name = "Prepare Config"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
                     echo SCRIPT-MARKER-prepare-config
@@ -33,13 +34,10 @@ step "prepare-config" {
         }
         worker_pool = "local-container"
     }
-}
 
-step "validate-inputs-01" {
-    name = "Validate Inputs 01"
-
-    action {
+    action "validate-inputs-01" {
         action_type = "Octopus.Script"
+        name = "Validate Inputs 01"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
                     echo SCRIPT-MARKER-validate-inputs-01
@@ -50,13 +48,10 @@ step "validate-inputs-01" {
         }
         worker_pool = "local-container"
     }
-}
 
-step "validate-inputs-02" {
-    name = "Validate Inputs 02"
-
-    action {
+    action "validate-inputs-02" {
         action_type = "Octopus.Script"
+        name = "Validate Inputs 02"
         properties = {
             Octopus.Action.Script.ScriptBody = <<-EOT
                     echo SCRIPT-MARKER-validate-inputs-02
