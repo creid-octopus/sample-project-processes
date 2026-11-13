@@ -3,6 +3,10 @@ data "octopusdeploy_environments" "development" {
   partial_name = "Development"
 }
 
+resource "octopusdeploy_environment" "test" {
+  name = "Test"
+}
+
 resource "octopusdeploy_environment" "lab" {
   name = "Lab"
 }
@@ -20,6 +24,7 @@ locals {
 
   all_environment_ids = [
     local.development_environment_id,
+    octopusdeploy_environment.test.id,
     octopusdeploy_environment.lab.id,
     octopusdeploy_environment.staging.id,
     octopusdeploy_environment.production.id,
@@ -27,18 +32,21 @@ locals {
 }
 
 # Lifecycles drive the channels. The project keeps its default lifecycle.
-resource "octopusdeploy_lifecycle" "standard" {
-  name        = "Standard (Lab, Staging, Production)"
-  description = "Mock lifecycle for the standard release channel."
+resource "octopusdeploy_lifecycle" "promotion" {
+  name        = "Dev/Test, Lab, Production"
+  description = "Mock promotion flow. One of Development or Test must pass, then Lab, then Production."
 
+  # Phase 1: non-production. A release needs a successful deployment to at least one of these.
+  phase {
+    name                                  = "Non-production"
+    optional_deployment_targets           = [local.development_environment_id, octopusdeploy_environment.test.id]
+    minimum_environments_before_promotion = 1
+  }
+
+  # Phase 2: Lab must pass before Production.
   phase {
     name                        = "Lab"
     optional_deployment_targets = [octopusdeploy_environment.lab.id]
-  }
-
-  phase {
-    name                        = "Staging"
-    optional_deployment_targets = [octopusdeploy_environment.staging.id]
   }
 
   phase {

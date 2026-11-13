@@ -29,5 +29,5 @@ resource "octopusdeploy_channel" "release" {
   name         = "Release"
   description  = "Standard release channel."
   project_id   = local.project_id
-  lifecycle_id = octopusdeploy_lifecycle.standard.id
+  lifecycle_id = octopusdeploy_lifecycle.promotion.id
 }
