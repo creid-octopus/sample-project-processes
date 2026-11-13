@@ -34,6 +34,19 @@ The worker should show **Healthy** under Infrastructure, Workers, in the space.
 
 After `down -v` the worker registers again. If a worker with the same name already exists, delete it in the UI first, or set a new `WORKER_NAME`.
 
+## Troubleshooting
+
+**`not a directory ... mounting worker-machine-id`**: the `worker-machine-id` path is a directory, not a file. Docker creates a directory when a bind mount source is missing. Fix:
+
+```bash
+docker compose down
+rmdir worker-machine-id        # only if it is an empty directory
+uuidgen | tr -d '-' | tr 'A-Z' 'a-z' > worker-machine-id
+docker compose up -d
+```
+
+The compose file now stops with a clear error instead of creating the directory, but an earlier run can leave one behind.
+
 ## Notes
 
 * The API key needs permission to register workers in the space. A key for the Terraform agent identity should not have it, so use your own short-lived key.

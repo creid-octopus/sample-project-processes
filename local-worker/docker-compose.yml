@@ -31,10 +31,24 @@ services:
       # Linux Tentacle derives its config encryption key from the machine id.
       # Each Tentacle image ships its own, so pin it: otherwise an image update
       # can no longer decrypt the config in the volume.
-      - ./worker-machine-id:/etc/machine-id:ro
-      - ./worker-machine-id:/var/lib/dbus/machine-id:ro
+      # Long syntax with create_host_path off: if the file is missing, Compose stops with
+      # an error. The short syntax would silently create a directory with that name.
+      - type: bind
+        source: ./worker-machine-id
+        target: /etc/machine-id
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./worker-machine-id
+        target: /var/lib/dbus/machine-id
+        read_only: true
+        bind:
+          create_host_path: false
       # Extracted packages. Kept on the host so they survive container recreates.
-      - ./worker-applications:/home/Octopus/Applications
+      - type: bind
+        source: ./worker-applications
+        target: /home/Octopus/Applications
 
 volumes:
   worker-config:
