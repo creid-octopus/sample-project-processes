@@ -1,0 +1,650 @@
+{
+  "description": "Large process: 200 steps (203 actions), parallel groups up to 12 steps, tag gating across all six tag sets, scoping, conditions, packages, output chains, multi-action steps, flags, and project variables.",
+  "groups": [
+    {
+      "key": "prep-release",
+      "name": "Prepare Release",
+      "count": 1,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "setsOutput": "BuildId"
+    },
+    {
+      "key": "prep-config",
+      "name": "Prepare Config",
+      "count": 1,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "setsOutput": "ConfigPath"
+    },
+    {
+      "key": "validate",
+      "name": "Validate Inputs",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "readsOutput": "BuildId",
+      "readsOutputFrom": "prepare-release"
+    },
+    {
+      "key": "prechecks",
+      "name": "Pre Check",
+      "count": 12,
+      "layout": "parallel",
+      "runsOn": "worker",
+      "maxParallelism": "4"
+    },
+    {
+      "key": "db-prep",
+      "name": "Database Prep",
+      "count": 6,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server"
+    },
+    {
+      "key": "libs",
+      "name": "Shared Library",
+      "count": 8,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "maxParallelism": "#{Project.MaxParallel}"
+    },
+    {
+      "key": "base",
+      "name": "Base Install",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "packageRequirement": "AfterPackageAcquisition",
+      "package": {
+        "feed": "octopus-server-built-in",
+        "packageId": "sample-base",
+        "acquisition": "ExecutionTarget"
+      }
+    },
+    {
+      "key": "ma-schema",
+      "name": "Module A Schema",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module A"
+      ]
+    },
+    {
+      "key": "ma-install",
+      "name": "Module A Install",
+      "count": 8,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module A"
+      ],
+      "maxParallelism": "4"
+    },
+    {
+      "key": "ma-verify",
+      "name": "Module A Verify",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module A"
+      ]
+    },
+    {
+      "key": "mb-schema",
+      "name": "Module B Schema",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module B"
+      ]
+    },
+    {
+      "key": "mb-install",
+      "name": "Module B Install",
+      "count": 7,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module B"
+      ],
+      "maxParallelism": "3"
+    },
+    {
+      "key": "mb-verify",
+      "name": "Module B Verify",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module B"
+      ],
+      "condition": "Variable",
+      "conditionExpression": "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
+    },
+    {
+      "key": "mc-schema",
+      "name": "Module C Schema",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module C"
+      ]
+    },
+    {
+      "key": "mc-install",
+      "name": "Module C Install",
+      "count": 6,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module C"
+      ],
+      "maxParallelism": "3"
+    },
+    {
+      "key": "mc-verify",
+      "name": "Module C Verify",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module C"
+      ]
+    },
+    {
+      "key": "md-schema",
+      "name": "Module D Schema",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module D",
+        "Module Pack/Module E"
+      ]
+    },
+    {
+      "key": "md-install",
+      "name": "Module D Install",
+      "count": 5,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module D",
+        "Module Pack/Module E"
+      ],
+      "maxParallelism": "2"
+    },
+    {
+      "key": "md-verify",
+      "name": "Module D Verify",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module D",
+        "Module Pack/Module E"
+      ],
+      "condition": "Variable",
+      "conditionExpression": "#{unless Octopus.Deployment.Error}#{Project.Feature.Flag}#{/unless}"
+    },
+    {
+      "key": "me-schema",
+      "name": "Module E Schema",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module E"
+      ]
+    },
+    {
+      "key": "me-install",
+      "name": "Module E Install",
+      "count": 4,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module E"
+      ],
+      "maxParallelism": "2"
+    },
+    {
+      "key": "me-verify",
+      "name": "Module E Verify",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module E"
+      ]
+    },
+    {
+      "key": "mf-schema",
+      "name": "Module F Schema",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "targets",
+      "targetRole": "db-server",
+      "tenantTags": [
+        "Module Pack/Module F"
+      ]
+    },
+    {
+      "key": "mf-install",
+      "name": "Module F Install",
+      "count": 4,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "app-server",
+      "tenantTags": [
+        "Module Pack/Module F"
+      ],
+      "maxParallelism": "2"
+    },
+    {
+      "key": "mf-verify",
+      "name": "Module F Verify",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Module Pack/Module F"
+      ]
+    },
+    {
+      "key": "int1-par",
+      "name": "Integration One Connect",
+      "count": 5,
+      "layout": "parallel",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 1"
+      ]
+    },
+    {
+      "key": "int1-seq",
+      "name": "Integration One Config",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 1",
+        "Module Pack/Module A"
+      ]
+    },
+    {
+      "key": "int2-par",
+      "name": "Integration Two Connect",
+      "count": 4,
+      "layout": "parallel",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 2"
+      ]
+    },
+    {
+      "key": "int2-seq",
+      "name": "Integration Two Config",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 2",
+        "Module Pack/Module D"
+      ]
+    },
+    {
+      "key": "int3-par",
+      "name": "Integration Three Connect",
+      "count": 3,
+      "layout": "parallel",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 3"
+      ]
+    },
+    {
+      "key": "int3-seq",
+      "name": "Integration Three Config",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Integration/Integration 3",
+        "Module Pack/Module C"
+      ]
+    },
+    {
+      "key": "host-server",
+      "name": "Server Only Config",
+      "count": 6,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Host Type/Server Only"
+      ]
+    },
+    {
+      "key": "host-ws",
+      "name": "Workstation Setup",
+      "count": 10,
+      "layout": "parallel",
+      "runsOn": "targets",
+      "targetRole": "workstation",
+      "maxParallelism": "3",
+      "tenantTags": [
+        "Host Type/Server And Workstation"
+      ]
+    },
+    {
+      "key": "beta",
+      "name": "Beta Only",
+      "count": 5,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Pre-release/Beta Program"
+      ],
+      "channels": [
+        "beta"
+      ]
+    },
+    {
+      "key": "hard",
+      "name": "Hardening",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Hardening/Enhanced"
+      ]
+    },
+    {
+      "key": "hard-ws",
+      "name": "Hardening Workstation",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Hardening/Enhanced",
+        "Host Type/Server And Workstation"
+      ]
+    },
+    {
+      "key": "hold",
+      "name": "Hold Gate",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Rollout Control/Hold"
+      ],
+      "condition": "Variable",
+      "conditionExpression": "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
+    },
+    {
+      "key": "fast",
+      "name": "Fast Track",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "tenantTags": [
+        "Rollout Control/Fast Track"
+      ],
+      "channels": [
+        "release"
+      ]
+    },
+    {
+      "key": "lab-only",
+      "name": "Lab Only Diagnostic",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "environments": [
+        "lab"
+      ]
+    },
+    {
+      "key": "stg-prod",
+      "name": "Staging And Production Verify",
+      "count": 5,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "environments": [
+        "staging",
+        "production"
+      ]
+    },
+    {
+      "key": "not-lab",
+      "name": "Skip In Lab",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "excludedEnvironments": [
+        "lab"
+      ]
+    },
+    {
+      "key": "prod-notify",
+      "name": "Production Only Notify",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "environments": [
+        "production"
+      ],
+      "channels": [
+        "release"
+      ]
+    },
+    {
+      "key": "pkg-server",
+      "name": "Acquire On Server",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "package": {
+        "feed": "octopus-server-built-in",
+        "packageId": "sample-server-pkg",
+        "acquisition": "Server"
+      },
+      "packageRequirement": "BeforePackageAcquisition"
+    },
+    {
+      "key": "pkg-var",
+      "name": "Acquire Variable Package",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "package": {
+        "feed": "octopus-server-built-in",
+        "packageId": "#{Package.Id}",
+        "acquisition": "Server"
+      }
+    },
+    {
+      "key": "pkg-none",
+      "name": "Reference Not Acquired",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "package": {
+        "feed": "octopus-server-built-in",
+        "packageId": "sample-ref-pkg",
+        "acquisition": "NotAcquired"
+      }
+    },
+    {
+      "key": "consume",
+      "name": "Consume Build Id",
+      "count": 4,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "readsOutput": "BuildId",
+      "readsOutputFrom": "prepare-release"
+    },
+    {
+      "key": "metrics",
+      "name": "Collect Metrics",
+      "count": 3,
+      "layout": "parallel",
+      "runsOn": "worker",
+      "joinPrevious": true,
+      "setsOutput": "Metrics"
+    },
+    {
+      "key": "report",
+      "name": "Report Metrics",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "readsOutput": "Metrics",
+      "readsOutputFrom": "collect-metrics-01"
+    },
+    {
+      "key": "paired",
+      "name": "Paired Action Step",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "actionsPerStep": 2
+    },
+    {
+      "key": "disabled",
+      "name": "Disabled Step",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "isDisabled": true
+    },
+    {
+      "key": "required",
+      "name": "Required Step",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "isRequired": true
+    },
+    {
+      "key": "failure",
+      "name": "Notify On Failure",
+      "count": 2,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "condition": "Failure"
+    },
+    {
+      "key": "always",
+      "name": "Cleanup Always",
+      "count": 3,
+      "layout": "sequential",
+      "runsOn": "worker",
+      "condition": "Always"
+    }
+  ],
+  "variables": [
+    {
+      "prefix": "Project.Setting",
+      "count": 12
+    },
+    {
+      "prefix": "Project.EnvValue",
+      "count": 8,
+      "values": [
+        {
+          "environment": [
+            "development"
+          ]
+        },
+        {
+          "environment": [
+            "lab"
+          ]
+        },
+        {
+          "environment": [
+            "staging"
+          ]
+        },
+        {
+          "environment": [
+            "production"
+          ]
+        }
+      ]
+    },
+    {
+      "prefix": "Project.ChannelValue",
+      "count": 2,
+      "values": [
+        {
+          "channel": [
+            "default"
+          ]
+        },
+        {
+          "channel": [
+            "beta"
+          ]
+        },
+        {
+          "channel": [
+            "release"
+          ]
+        }
+      ]
+    },
+    {
+      "prefix": "Project.Prompt",
+      "count": 4,
+      "prompted": true
+    },
+    {
+      "prefix": "Project.BuildRef",
+      "count": 3,
+      "readsOutput": "BuildId",
+      "readsOutputFrom": "prepare-release"
+    },
+    {
+      "prefix": "Project.MaxParallel",
+      "count": 1,
+      "value": "4"
+    },
+    {
+      "prefix": "Package.Id",
+      "count": 1,
+      "value": "sample-var-pkg"
+    },
+    {
+      "prefix": "Project.Feature.Flag",
+      "count": 1,
+      "value": "true"
+    },
+    {
+      "prefix": "Project.Hold.Enabled",
+      "count": 1,
+      "value": "false"
+    }
+  ]
+}

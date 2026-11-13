@@ -1,13 +1,13 @@
-step "core-prep-01" {
-    name = "Core Prep 01"
+step "prepare-release" {
+    name = "Prepare Release"
 
     action {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-prep-01
-                set_octopusvariable "BuildId" "value-core-prep-01"
+                echo SCRIPT-MARKER-prepare-release
+                set_octopusvariable "BuildId" "value-prepare-release"
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -16,16 +16,16 @@ step "core-prep-01" {
     }
 }
 
-step "core-prep-02" {
-    name = "Core Prep 02"
+step "prepare-config" {
+    name = "Prepare Config"
 
     action {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-prep-02
-                set_octopusvariable "BuildId" "value-core-prep-02"
+                echo SCRIPT-MARKER-prepare-config
+                set_octopusvariable "ConfigPath" "value-prepare-config"
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -34,16 +34,16 @@ step "core-prep-02" {
     }
 }
 
-step "core-prep-03" {
-    name = "Core Prep 03"
+step "validate-inputs-01" {
+    name = "Validate Inputs 01"
 
     action {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-prep-03
-                set_octopusvariable "BuildId" "value-core-prep-03"
+                echo SCRIPT-MARKER-validate-inputs-01
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -52,10 +52,46 @@ step "core-prep-03" {
     }
 }
 
-step "core-parallel-01" {
-    name = "Core Parallel 01"
+step "validate-inputs-02" {
+    name = "Validate Inputs 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-validate-inputs-02
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "validate-inputs-03" {
+    name = "Validate Inputs 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-validate-inputs-03
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "pre-check-01" {
+    name = "Pre Check 01"
     properties = {
-        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.MaxParallelism = "4"
     }
 
     action {
@@ -63,7 +99,7 @@ step "core-parallel-01" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-parallel-01
+                echo SCRIPT-MARKER-pre-check-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -72,10 +108,10 @@ step "core-parallel-01" {
     }
 }
 
-step "core-parallel-02" {
-    name = "Core Parallel 02"
+step "pre-check-02" {
+    name = "Pre Check 02"
     properties = {
-        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.MaxParallelism = "4"
     }
     start_trigger = "StartWithPrevious"
 
@@ -84,7 +120,7 @@ step "core-parallel-02" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-parallel-02
+                echo SCRIPT-MARKER-pre-check-02
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -93,10 +129,10 @@ step "core-parallel-02" {
     }
 }
 
-step "core-parallel-03" {
-    name = "Core Parallel 03"
+step "pre-check-03" {
+    name = "Pre Check 03"
     properties = {
-        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.MaxParallelism = "4"
     }
     start_trigger = "StartWithPrevious"
 
@@ -105,7 +141,7 @@ step "core-parallel-03" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-parallel-03
+                echo SCRIPT-MARKER-pre-check-03
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -114,10 +150,10 @@ step "core-parallel-03" {
     }
 }
 
-step "core-parallel-04" {
-    name = "Core Parallel 04"
+step "pre-check-04" {
+    name = "Pre Check 04"
     properties = {
-        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.MaxParallelism = "4"
     }
     start_trigger = "StartWithPrevious"
 
@@ -126,7 +162,7 @@ step "core-parallel-04" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-core-parallel-04
+                echo SCRIPT-MARKER-pre-check-04
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -135,124 +171,11 @@ step "core-parallel-04" {
     }
 }
 
-step "module-a-01" {
-    name = "Module A 01"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "module-a-02" {
-    name = "Module A 02"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-a-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Module Pack/Module A"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "module-b-01" {
-    name = "Module B 01"
-    condition = "Variable"
+step "pre-check-05" {
+    name = "Pre Check 05"
     properties = {
-        Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
+        Octopus.Action.MaxParallelism = "4"
     }
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Module Pack/Module B"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "module-b-02" {
-    name = "Module B 02"
-    condition = "Variable"
-    properties = {
-        Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
-    }
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-b-02
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Module Pack/Module B"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "module-c" {
-    name = "Module C"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-module-c
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Module Pack/Module C", "Module Pack/Module D"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "integration-01" {
-    name = "Integration 01"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.RunOnServer = "true"
-            Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-01
-            EOT
-            Octopus.Action.Script.ScriptSource = "Inline"
-            Octopus.Action.Script.Syntax = "Bash"
-        }
-        tenant_tags = ["Integration/Integration 1", "Integration/Integration 2"]
-        worker_pool = "hosted-ubuntu"
-    }
-}
-
-step "integration-02" {
-    name = "Integration 02"
     start_trigger = "StartWithPrevious"
 
     action {
@@ -260,18 +183,20 @@ step "integration-02" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-02
+                echo SCRIPT-MARKER-pre-check-05
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        tenant_tags = ["Integration/Integration 1", "Integration/Integration 2"]
         worker_pool = "hosted-ubuntu"
     }
 }
 
-step "integration-03" {
-    name = "Integration 03"
+step "pre-check-06" {
+    name = "Pre Check 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
     start_trigger = "StartWithPrevious"
 
     action {
@@ -279,63 +204,70 @@ step "integration-03" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-integration-03
+                echo SCRIPT-MARKER-pre-check-06
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        tenant_tags = ["Integration/Integration 1", "Integration/Integration 2"]
         worker_pool = "hosted-ubuntu"
     }
 }
 
-step "hardening" {
-    name = "Hardening"
+step "pre-check-07" {
+    name = "Pre Check 07"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
 
     action {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-hardening
+                echo SCRIPT-MARKER-pre-check-07
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        tenant_tags = ["Hardening/Enhanced", "Host Type/Server And Workstation"]
         worker_pool = "hosted-ubuntu"
     }
 }
 
-step "beta-only" {
-    name = "Beta Only"
+step "pre-check-08" {
+    name = "Pre Check 08"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
 
     action {
         action_type = "Octopus.Script"
-        channels = ["beta"]
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-beta-only
+                echo SCRIPT-MARKER-pre-check-08
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
         }
-        tenant_tags = ["Pre-release/Beta Program"]
         worker_pool = "hosted-ubuntu"
     }
 }
 
-step "scoped-to-environments-01" {
-    name = "Scoped To Environments 01"
+step "pre-check-09" {
+    name = "Pre Check 09"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
 
     action {
         action_type = "Octopus.Script"
-        environments = ["lab", "staging"]
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-scoped-to-environments-01
+                echo SCRIPT-MARKER-pre-check-09
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -344,16 +276,19 @@ step "scoped-to-environments-01" {
     }
 }
 
-step "scoped-to-environments-02" {
-    name = "Scoped To Environments 02"
+step "pre-check-10" {
+    name = "Pre Check 10"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
 
     action {
         action_type = "Octopus.Script"
-        environments = ["lab", "staging"]
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-scoped-to-environments-02
+                echo SCRIPT-MARKER-pre-check-10
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -362,16 +297,19 @@ step "scoped-to-environments-02" {
     }
 }
 
-step "skip-in-lab" {
-    name = "Skip In Lab"
+step "pre-check-11" {
+    name = "Pre Check 11"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
 
     action {
         action_type = "Octopus.Script"
-        excluded_environments = ["lab"]
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-skip-in-lab
+                echo SCRIPT-MARKER-pre-check-11
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -380,8 +318,310 @@ step "skip-in-lab" {
     }
 }
 
-step "deploy-package" {
-    name = "Deploy Package"
+step "pre-check-12" {
+    name = "Pre Check 12"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-pre-check-12
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "database-prep-01" {
+    name = "Database Prep 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "database-prep-02" {
+    name = "Database Prep 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "database-prep-03" {
+    name = "Database Prep 03"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "database-prep-04" {
+    name = "Database Prep 04"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "database-prep-05" {
+    name = "Database Prep 05"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "database-prep-06" {
+    name = "Database Prep 06"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-database-prep-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-01" {
+    name = "Shared Library 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-02" {
+    name = "Shared Library 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-03" {
+    name = "Shared Library 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-04" {
+    name = "Shared Library 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-05" {
+    name = "Shared Library 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-06" {
+    name = "Shared Library 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-07" {
+    name = "Shared Library 07"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-07
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "shared-library-08" {
+    name = "Shared Library 08"
+    properties = {
+        Octopus.Action.MaxParallelism = "#{Project.MaxParallel}"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-shared-library-08
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+    }
+}
+
+step "base-install-01" {
+    name = "Base Install 01"
     package_requirement = "AfterPackageAcquisition"
     properties = {
         Octopus.Action.TargetRoles = "app-server"
@@ -392,7 +632,7 @@ step "deploy-package" {
         properties = {
             Octopus.Action.RunOnServer = "false"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-deploy-package
+                echo SCRIPT-MARKER-base-install-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -401,7 +641,7 @@ step "deploy-package" {
         packages {
             acquisition_location = "ExecutionTarget"
             feed = "octopus-server-built-in"
-            package_id = "sample-app"
+            package_id = "sample-base"
             properties = {
                 SelectionMode = "immediate"
             }
@@ -409,16 +649,2457 @@ step "deploy-package" {
     }
 }
 
-step "use-build-id" {
-    name = "Use Build Id"
+step "base-install-02" {
+    name = "Base Install 02"
+    package_requirement = "AfterPackageAcquisition"
+    properties = {
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-base-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+
+        packages {
+            acquisition_location = "ExecutionTarget"
+            feed = "octopus-server-built-in"
+            package_id = "sample-base"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "base-install-03" {
+    name = "Base Install 03"
+    package_requirement = "AfterPackageAcquisition"
+    properties = {
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-base-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+
+        packages {
+            acquisition_location = "ExecutionTarget"
+            feed = "octopus-server-built-in"
+            package_id = "sample-base"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "base-install-04" {
+    name = "Base Install 04"
+    package_requirement = "AfterPackageAcquisition"
+    properties = {
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-base-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+
+        packages {
+            acquisition_location = "ExecutionTarget"
+            feed = "octopus-server-built-in"
+            package_id = "sample-base"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "module-a-schema-01" {
+    name = "Module A Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-schema-02" {
+    name = "Module A Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-schema-03" {
+    name = "Module A Schema 03"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-schema-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-schema-04" {
+    name = "Module A Schema 04"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-schema-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-01" {
+    name = "Module A Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-02" {
+    name = "Module A Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-03" {
+    name = "Module A Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-04" {
+    name = "Module A Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-05" {
+    name = "Module A Install 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-06" {
+    name = "Module A Install 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-07" {
+    name = "Module A Install 07"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-07
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-install-08" {
+    name = "Module A Install 08"
+    properties = {
+        Octopus.Action.MaxParallelism = "4"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-install-08
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+    }
+}
+
+step "module-a-verify-01" {
+    name = "Module A Verify 01"
 
     action {
         action_type = "Octopus.Script"
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-use-build-id
-                echo "#{Octopus.Action[Core Prep 01].Output.BuildId}"
+                echo SCRIPT-MARKER-module-a-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-a-verify-02" {
+    name = "Module A Verify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-a-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module A"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-b-schema-01" {
+    name = "Module B Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-schema-02" {
+    name = "Module B Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-schema-03" {
+    name = "Module B Schema 03"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-schema-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-01" {
+    name = "Module B Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-02" {
+    name = "Module B Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-03" {
+    name = "Module B Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-04" {
+    name = "Module B Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-05" {
+    name = "Module B Install 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-06" {
+    name = "Module B Install 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-install-07" {
+    name = "Module B Install 07"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-install-07
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+    }
+}
+
+step "module-b-verify-01" {
+    name = "Module B Verify 01"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-b-verify-02" {
+    name = "Module B Verify 02"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Octopus.Environment.Name == \"Production\"}true#{/if}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-b-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module B"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-c-schema-01" {
+    name = "Module C Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-schema-02" {
+    name = "Module C Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-schema-03" {
+    name = "Module C Schema 03"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-schema-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-01" {
+    name = "Module C Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-02" {
+    name = "Module C Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-03" {
+    name = "Module C Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-04" {
+    name = "Module C Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-05" {
+    name = "Module C Install 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-install-06" {
+    name = "Module C Install 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-install-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+    }
+}
+
+step "module-c-verify-01" {
+    name = "Module C Verify 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-c-verify-02" {
+    name = "Module C Verify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-c-verify-03" {
+    name = "Module C Verify 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-c-verify-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module C"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-d-schema-01" {
+    name = "Module D Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-schema-02" {
+    name = "Module D Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-schema-03" {
+    name = "Module D Schema 03"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-schema-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-install-01" {
+    name = "Module D Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-install-02" {
+    name = "Module D Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-install-03" {
+    name = "Module D Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-install-04" {
+    name = "Module D Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-install-05" {
+    name = "Module D Install 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-install-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+    }
+}
+
+step "module-d-verify-01" {
+    name = "Module D Verify 01"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Project.Feature.Flag}#{/unless}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-d-verify-02" {
+    name = "Module D Verify 02"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{unless Octopus.Deployment.Error}#{Project.Feature.Flag}#{/unless}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-d-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module D", "Module Pack/Module E"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-e-schema-01" {
+    name = "Module E Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-schema-02" {
+    name = "Module E Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-install-01" {
+    name = "Module E Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-install-02" {
+    name = "Module E Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-install-03" {
+    name = "Module E Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-install-04" {
+    name = "Module E Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+    }
+}
+
+step "module-e-verify-01" {
+    name = "Module E Verify 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-e-verify-02" {
+    name = "Module E Verify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-e-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module E"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-f-schema-01" {
+    name = "Module F Schema 01"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-schema-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-schema-02" {
+    name = "Module F Schema 02"
+    properties = {
+        Octopus.Action.TargetRoles = "db-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-schema-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-install-01" {
+    name = "Module F Install 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-install-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-install-02" {
+    name = "Module F Install 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-install-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-install-03" {
+    name = "Module F Install 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-install-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-install-04" {
+    name = "Module F Install 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "2"
+        Octopus.Action.TargetRoles = "app-server"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-install-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+    }
+}
+
+step "module-f-verify-01" {
+    name = "Module F Verify 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "module-f-verify-02" {
+    name = "Module F Verify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-module-f-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Module Pack/Module F"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-connect-01" {
+    name = "Integration One Connect 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-connect-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-connect-02" {
+    name = "Integration One Connect 02"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-connect-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-connect-03" {
+    name = "Integration One Connect 03"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-connect-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-connect-04" {
+    name = "Integration One Connect 04"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-connect-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-connect-05" {
+    name = "Integration One Connect 05"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-connect-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-config-01" {
+    name = "Integration One Config 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-config-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-config-02" {
+    name = "Integration One Config 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-config-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-one-config-03" {
+    name = "Integration One Config 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-one-config-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 1", "Module Pack/Module A"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-connect-01" {
+    name = "Integration Two Connect 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-connect-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-connect-02" {
+    name = "Integration Two Connect 02"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-connect-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-connect-03" {
+    name = "Integration Two Connect 03"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-connect-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-connect-04" {
+    name = "Integration Two Connect 04"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-connect-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-config-01" {
+    name = "Integration Two Config 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-config-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-config-02" {
+    name = "Integration Two Config 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-config-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-two-config-03" {
+    name = "Integration Two Config 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-two-config-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 2", "Module Pack/Module D"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-three-connect-01" {
+    name = "Integration Three Connect 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-three-connect-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 3"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-three-connect-02" {
+    name = "Integration Three Connect 02"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-three-connect-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 3"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-three-connect-03" {
+    name = "Integration Three Connect 03"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-three-connect-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 3"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-three-config-01" {
+    name = "Integration Three Config 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-three-config-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 3", "Module Pack/Module C"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "integration-three-config-02" {
+    name = "Integration Three Config 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-integration-three-config-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Integration/Integration 3", "Module Pack/Module C"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-01" {
+    name = "Server Only Config 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-02" {
+    name = "Server Only Config 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-03" {
+    name = "Server Only Config 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-04" {
+    name = "Server Only Config 04"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-05" {
+    name = "Server Only Config 05"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "server-only-config-06" {
+    name = "Server Only Config 06"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-server-only-config-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server Only"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "workstation-setup-01" {
+    name = "Workstation Setup 01"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-02" {
+    name = "Workstation Setup 02"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-03" {
+    name = "Workstation Setup 03"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-04" {
+    name = "Workstation Setup 04"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-05" {
+    name = "Workstation Setup 05"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-06" {
+    name = "Workstation Setup 06"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-06
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-07" {
+    name = "Workstation Setup 07"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-07
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-08" {
+    name = "Workstation Setup 08"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-08
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-09" {
+    name = "Workstation Setup 09"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-09
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "workstation-setup-10" {
+    name = "Workstation Setup 10"
+    properties = {
+        Octopus.Action.MaxParallelism = "3"
+        Octopus.Action.TargetRoles = "workstation"
+    }
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "false"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-workstation-setup-10
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Host Type/Server And Workstation"]
+    }
+}
+
+step "beta-only-01" {
+    name = "Beta Only 01"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["beta"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-beta-only-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Pre-release/Beta Program"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "beta-only-02" {
+    name = "Beta Only 02"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["beta"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-beta-only-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Pre-release/Beta Program"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "beta-only-03" {
+    name = "Beta Only 03"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["beta"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-beta-only-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Pre-release/Beta Program"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "beta-only-04" {
+    name = "Beta Only 04"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["beta"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-beta-only-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Pre-release/Beta Program"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "beta-only-05" {
+    name = "Beta Only 05"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["beta"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-beta-only-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Pre-release/Beta Program"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-01" {
+    name = "Hardening 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-02" {
+    name = "Hardening 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-03" {
+    name = "Hardening 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-04" {
+    name = "Hardening 04"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-workstation-01" {
+    name = "Hardening Workstation 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-workstation-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced", "Host Type/Server And Workstation"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hardening-workstation-02" {
+    name = "Hardening Workstation 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hardening-workstation-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Hardening/Enhanced", "Host Type/Server And Workstation"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hold-gate-01" {
+    name = "Hold Gate 01"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hold-gate-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Hold"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hold-gate-02" {
+    name = "Hold Gate 02"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hold-gate-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Hold"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "hold-gate-03" {
+    name = "Hold Gate 03"
+    condition = "Variable"
+    properties = {
+        Octopus.Step.ConditionVariableExpression = "#{if Project.Hold.Enabled == \"true\"}true#{/if}"
+    }
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-hold-gate-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Hold"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "fast-track-01" {
+    name = "Fast Track 01"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-fast-track-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Fast Track"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "fast-track-02" {
+    name = "Fast Track 02"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-fast-track-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Fast Track"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "fast-track-03" {
+    name = "Fast Track 03"
+
+    action {
+        action_type = "Octopus.Script"
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-fast-track-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        tenant_tags = ["Rollout Control/Fast Track"]
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "lab-only-diagnostic-01" {
+    name = "Lab Only Diagnostic 01"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-lab-only-diagnostic-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -427,8 +3108,772 @@ step "use-build-id" {
     }
 }
 
-step "disabled-step" {
-    name = "Disabled Step"
+step "lab-only-diagnostic-02" {
+    name = "Lab Only Diagnostic 02"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-lab-only-diagnostic-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "lab-only-diagnostic-03" {
+    name = "Lab Only Diagnostic 03"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-lab-only-diagnostic-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "lab-only-diagnostic-04" {
+    name = "Lab Only Diagnostic 04"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-lab-only-diagnostic-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "staging-and-production-verify-01" {
+    name = "Staging And Production Verify 01"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["staging", "production"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-staging-and-production-verify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "staging-and-production-verify-02" {
+    name = "Staging And Production Verify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["staging", "production"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-staging-and-production-verify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "staging-and-production-verify-03" {
+    name = "Staging And Production Verify 03"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["staging", "production"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-staging-and-production-verify-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "staging-and-production-verify-04" {
+    name = "Staging And Production Verify 04"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["staging", "production"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-staging-and-production-verify-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "staging-and-production-verify-05" {
+    name = "Staging And Production Verify 05"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["staging", "production"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-staging-and-production-verify-05
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "skip-in-lab-01" {
+    name = "Skip In Lab 01"
+
+    action {
+        action_type = "Octopus.Script"
+        excluded_environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-skip-in-lab-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "skip-in-lab-02" {
+    name = "Skip In Lab 02"
+
+    action {
+        action_type = "Octopus.Script"
+        excluded_environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-skip-in-lab-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "skip-in-lab-03" {
+    name = "Skip In Lab 03"
+
+    action {
+        action_type = "Octopus.Script"
+        excluded_environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-skip-in-lab-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "skip-in-lab-04" {
+    name = "Skip In Lab 04"
+
+    action {
+        action_type = "Octopus.Script"
+        excluded_environments = ["lab"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-skip-in-lab-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "production-only-notify-01" {
+    name = "Production Only Notify 01"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["production"]
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-production-only-notify-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "production-only-notify-02" {
+    name = "Production Only Notify 02"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["production"]
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-production-only-notify-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "production-only-notify-03" {
+    name = "Production Only Notify 03"
+
+    action {
+        action_type = "Octopus.Script"
+        environments = ["production"]
+        channels = ["release"]
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-production-only-notify-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "acquire-on-server-01" {
+    name = "Acquire On Server 01"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-on-server-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "sample-server-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "acquire-on-server-02" {
+    name = "Acquire On Server 02"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-on-server-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "sample-server-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "acquire-on-server-03" {
+    name = "Acquire On Server 03"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-on-server-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "sample-server-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "acquire-on-server-04" {
+    name = "Acquire On Server 04"
+    package_requirement = "BeforePackageAcquisition"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-on-server-04
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "sample-server-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "acquire-variable-package-01" {
+    name = "Acquire Variable Package 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-variable-package-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "#{Package.Id}"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "acquire-variable-package-02" {
+    name = "Acquire Variable Package 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-acquire-variable-package-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "Server"
+            feed = "octopus-server-built-in"
+            package_id = "#{Package.Id}"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "reference-not-acquired-01" {
+    name = "Reference Not Acquired 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-reference-not-acquired-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "NotAcquired"
+            feed = "octopus-server-built-in"
+            package_id = "sample-ref-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "reference-not-acquired-02" {
+    name = "Reference Not Acquired 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-reference-not-acquired-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        packages {
+            acquisition_location = "NotAcquired"
+            feed = "octopus-server-built-in"
+            package_id = "sample-ref-pkg"
+            properties = {
+                SelectionMode = "immediate"
+            }
+        }
+    }
+}
+
+step "consume-build-id-01" {
+    name = "Consume Build Id 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-consume-build-id-01
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "consume-build-id-02" {
+    name = "Consume Build Id 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-consume-build-id-02
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "consume-build-id-03" {
+    name = "Consume Build Id 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-consume-build-id-03
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "consume-build-id-04" {
+    name = "Consume Build Id 04"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-consume-build-id-04
+                echo "#{Octopus.Action[Prepare Release].Output.BuildId}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "collect-metrics-01" {
+    name = "Collect Metrics 01"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-collect-metrics-01
+                set_octopusvariable "Metrics" "value-collect-metrics-01"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "collect-metrics-02" {
+    name = "Collect Metrics 02"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-collect-metrics-02
+                set_octopusvariable "Metrics" "value-collect-metrics-02"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "collect-metrics-03" {
+    name = "Collect Metrics 03"
+    start_trigger = "StartWithPrevious"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-collect-metrics-03
+                set_octopusvariable "Metrics" "value-collect-metrics-03"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "report-metrics-01" {
+    name = "Report Metrics 01"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-report-metrics-01
+                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "report-metrics-02" {
+    name = "Report Metrics 02"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-report-metrics-02
+                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "report-metrics-03" {
+    name = "Report Metrics 03"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-report-metrics-03
+                echo "#{Octopus.Action[Collect Metrics 01].Output.Metrics}"
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "paired-action-step-01" {
+    name = "Paired Action Step 01"
+
+    action "paired-action-step-01-action-1" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 01 - Action 1"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-01-action-1
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+
+    action "paired-action-step-01-action-2" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 01 - Action 2"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-01-action-2
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "paired-action-step-02" {
+    name = "Paired Action Step 02"
+
+    action "paired-action-step-02-action-1" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 02 - Action 1"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-02-action-1
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+
+    action "paired-action-step-02-action-2" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 02 - Action 2"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-02-action-2
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "paired-action-step-03" {
+    name = "Paired Action Step 03"
+
+    action "paired-action-step-03-action-1" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 03 - Action 1"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-03-action-1
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+
+    action "paired-action-step-03-action-2" {
+        action_type = "Octopus.Script"
+        name = "Paired Action Step 03 - Action 2"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-paired-action-step-03-action-2
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "disabled-step-01" {
+    name = "Disabled Step 01"
 
     action {
         action_type = "Octopus.Script"
@@ -436,7 +3881,7 @@ step "disabled-step" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-disabled-step
+                echo SCRIPT-MARKER-disabled-step-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -445,8 +3890,44 @@ step "disabled-step" {
     }
 }
 
-step "required-step" {
-    name = "Required Step"
+step "disabled-step-02" {
+    name = "Disabled Step 02"
+
+    action {
+        action_type = "Octopus.Script"
+        is_disabled = true
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-disabled-step-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "disabled-step-03" {
+    name = "Disabled Step 03"
+
+    action {
+        action_type = "Octopus.Script"
+        is_disabled = true
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-disabled-step-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "required-step-01" {
+    name = "Required Step 01"
 
     action {
         action_type = "Octopus.Script"
@@ -454,7 +3935,7 @@ step "required-step" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-required-step
+                echo SCRIPT-MARKER-required-step-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -463,8 +3944,44 @@ step "required-step" {
     }
 }
 
-step "notify-on-failure" {
-    name = "Notify On Failure"
+step "required-step-02" {
+    name = "Required Step 02"
+
+    action {
+        action_type = "Octopus.Script"
+        is_required = true
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-required-step-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "required-step-03" {
+    name = "Required Step 03"
+
+    action {
+        action_type = "Octopus.Script"
+        is_required = true
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-required-step-03
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "notify-on-failure-01" {
+    name = "Notify On Failure 01"
     condition = "Failure"
 
     action {
@@ -472,7 +3989,7 @@ step "notify-on-failure" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-notify-on-failure
+                echo SCRIPT-MARKER-notify-on-failure-01
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"
@@ -481,8 +3998,26 @@ step "notify-on-failure" {
     }
 }
 
-step "cleanup-always" {
-    name = "Cleanup Always"
+step "notify-on-failure-02" {
+    name = "Notify On Failure 02"
+    condition = "Failure"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-notify-on-failure-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "cleanup-always-01" {
+    name = "Cleanup Always 01"
     condition = "Always"
 
     action {
@@ -490,7 +4025,43 @@ step "cleanup-always" {
         properties = {
             Octopus.Action.RunOnServer = "true"
             Octopus.Action.Script.ScriptBody = <<-EOT
-                echo SCRIPT-MARKER-cleanup-always
+                echo SCRIPT-MARKER-cleanup-always-01
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "cleanup-always-02" {
+    name = "Cleanup Always 02"
+    condition = "Always"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-cleanup-always-02
+            EOT
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "Bash"
+        }
+        worker_pool = "hosted-ubuntu"
+    }
+}
+
+step "cleanup-always-03" {
+    name = "Cleanup Always 03"
+    condition = "Always"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.RunOnServer = "true"
+            Octopus.Action.Script.ScriptBody = <<-EOT
+                echo SCRIPT-MARKER-cleanup-always-03
             EOT
             Octopus.Action.Script.ScriptSource = "Inline"
             Octopus.Action.Script.Syntax = "Bash"

@@ -1,0 +1,283 @@
+variable "Project.Setting.01" {
+    value "dummy-1" {}
+}
+
+variable "Project.Setting.02" {
+    value "dummy-2" {}
+}
+
+variable "Project.Setting.03" {
+    value "dummy-3" {}
+}
+
+variable "Project.Setting.04" {
+    value "dummy-4" {}
+}
+
+variable "Project.Setting.05" {
+    value "dummy-5" {}
+}
+
+variable "Project.Setting.06" {
+    value "dummy-6" {}
+}
+
+variable "Project.Setting.07" {
+    value "dummy-7" {}
+}
+
+variable "Project.Setting.08" {
+    value "dummy-8" {}
+}
+
+variable "Project.Setting.09" {
+    value "dummy-9" {}
+}
+
+variable "Project.Setting.10" {
+    value "dummy-10" {}
+}
+
+variable "Project.Setting.11" {
+    value "dummy-11" {}
+}
+
+variable "Project.Setting.12" {
+    value "dummy-12" {}
+}
+
+variable "Project.EnvValue.01" {
+    value "dummy-1" {
+        environment = ["development"]
+    }
+
+    value "dummy-1" {
+        environment = ["lab"]
+    }
+
+    value "dummy-1" {
+        environment = ["staging"]
+    }
+
+    value "dummy-1" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.02" {
+    value "dummy-2" {
+        environment = ["development"]
+    }
+
+    value "dummy-2" {
+        environment = ["lab"]
+    }
+
+    value "dummy-2" {
+        environment = ["staging"]
+    }
+
+    value "dummy-2" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.03" {
+    value "dummy-3" {
+        environment = ["development"]
+    }
+
+    value "dummy-3" {
+        environment = ["lab"]
+    }
+
+    value "dummy-3" {
+        environment = ["staging"]
+    }
+
+    value "dummy-3" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.04" {
+    value "dummy-4" {
+        environment = ["development"]
+    }
+
+    value "dummy-4" {
+        environment = ["lab"]
+    }
+
+    value "dummy-4" {
+        environment = ["staging"]
+    }
+
+    value "dummy-4" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.05" {
+    value "dummy-5" {
+        environment = ["development"]
+    }
+
+    value "dummy-5" {
+        environment = ["lab"]
+    }
+
+    value "dummy-5" {
+        environment = ["staging"]
+    }
+
+    value "dummy-5" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.06" {
+    value "dummy-6" {
+        environment = ["development"]
+    }
+
+    value "dummy-6" {
+        environment = ["lab"]
+    }
+
+    value "dummy-6" {
+        environment = ["staging"]
+    }
+
+    value "dummy-6" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.07" {
+    value "dummy-7" {
+        environment = ["development"]
+    }
+
+    value "dummy-7" {
+        environment = ["lab"]
+    }
+
+    value "dummy-7" {
+        environment = ["staging"]
+    }
+
+    value "dummy-7" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.EnvValue.08" {
+    value "dummy-8" {
+        environment = ["development"]
+    }
+
+    value "dummy-8" {
+        environment = ["lab"]
+    }
+
+    value "dummy-8" {
+        environment = ["staging"]
+    }
+
+    value "dummy-8" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.ChannelValue.01" {
+    value "dummy-1" {
+        channel = ["default"]
+    }
+
+    value "dummy-1" {
+        channel = ["beta"]
+    }
+
+    value "dummy-1" {
+        channel = ["release"]
+    }
+}
+
+variable "Project.ChannelValue.02" {
+    value "dummy-2" {
+        channel = ["default"]
+    }
+
+    value "dummy-2" {
+        channel = ["beta"]
+    }
+
+    value "dummy-2" {
+        channel = ["release"]
+    }
+}
+
+variable "Project.Prompt.01" {
+    value "dummy-1" {
+        prompt {
+            description = ""
+            label = "Project.Prompt.01"
+        }
+    }
+}
+
+variable "Project.Prompt.02" {
+    value "dummy-2" {
+        prompt {
+            description = ""
+            label = "Project.Prompt.02"
+        }
+    }
+}
+
+variable "Project.Prompt.03" {
+    value "dummy-3" {
+        prompt {
+            description = ""
+            label = "Project.Prompt.03"
+        }
+    }
+}
+
+variable "Project.Prompt.04" {
+    value "dummy-4" {
+        prompt {
+            description = ""
+            label = "Project.Prompt.04"
+        }
+    }
+}
+
+variable "Project.BuildRef.01" {
+    value "#{Octopus.Action[Prepare Release].Output.BuildId}" {}
+}
+
+variable "Project.BuildRef.02" {
+    value "#{Octopus.Action[Prepare Release].Output.BuildId}" {}
+}
+
+variable "Project.BuildRef.03" {
+    value "#{Octopus.Action[Prepare Release].Output.BuildId}" {}
+}
+
+variable "Project.MaxParallel" {
+    value "4-1" {}
+}
+
+variable "Package.Id" {
+    value "sample-var-pkg-1" {}
+}
+
+variable "Project.Feature.Flag" {
+    value "true-1" {}
+}
+
+variable "Project.Hold.Enabled" {
+    value "false-1" {}
+}
