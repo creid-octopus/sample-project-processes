@@ -44,7 +44,8 @@ One manual step: open the project in the UI and set **Tenanted deployments** to 
 ## Generate a process
 
 ```bash
-pwsh generator/New-ProcessOcl.ps1 -Definition generator/definition.small.json
+pwsh generator/New-ProcessOcl.ps1 -Definition generator/definition.large.json   # 200 steps, 203 actions
+pwsh generator/New-ProcessOcl.ps1 -Definition generator/definition.small.json   # 26 steps
 ```
 
 Each group in the definition becomes one or more steps.
@@ -60,6 +61,9 @@ Each group in the definition becomes one or more steps.
 | `isDisabled`, `isRequired` | Flags. |
 | `package` | A package reference with feed, ID, and acquisition location. |
 | `setsOutput`, `readsOutput`, `readsOutputFrom` | Output variable dependencies. |
+| `actionsPerStep` | Number of actions in each step. More than one makes a multi action step. |
+| `joinPrevious` | The group's first step starts with the previous step, so a wave can span two groups. |
+| `variables` (top level) | Project variables: `count`, `prefix`, `values` (each with `environment` or `channel` scope), `prompted`, and step output references. Written to `variables.ocl`. |
 
 Each script body holds a marker string such as `SCRIPT-MARKER-core-prep-01`. The privacy tests search the export for these markers.
 
@@ -81,7 +85,6 @@ The instance license allows 10 tenants across all spaces, so this space has 5. T
 
 * Version rules on channels. They refer to steps by name, so they come after the process settles.
 * Deployment targets, for the target and offline cases.
-* The 200 step definition.
 * Telemetry data: releases and scheduled deployments, including failures and redeploys.
 * Comparison scripts and the privacy checks.
 
