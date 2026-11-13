@@ -84,7 +84,7 @@ The instance license allows 10 tenants across all spaces, so this space has 5. T
 ## Not built yet
 
 * Version rules on channels. They refer to steps by name, so they come after the process settles.
-* Deployment targets, for the target and offline cases.
+* More deployment targets, for server versus workstation splits and unavailable machines. One Cloud Region target (`mock-target-all`) is registered for every environment, tenant, and role. It needs no real machine and counts as one machine against the license.
 * Telemetry data: releases and scheduled deployments, including failures and redeploys.
 * Comparison scripts and the privacy checks.
 
